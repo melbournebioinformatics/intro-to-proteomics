@@ -1,5 +1,5 @@
 ---
-title: 'Data cleaning and DE analysis'
+title: 'Data cleaning using R'
 teaching: 10
 exercises: 2
 ---
@@ -16,18 +16,32 @@ exercises: 2
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+## Load processed data and sample annotation 
 
+After processing raw proteomics data, further cleaning and analysis can be conducted using R, Python, or by importing data to other platforms like **Perseus** or **Skyline**.
 
-## Load processed data and additional files
+In this workshop, we will be teaching you one method of cleaning and analysing proteomics data using R. To follow along the remainder of this workshop, you should **open a new R script in RStudio** and **run the example code provided.**
 
+:::callout
 
+# The limpa package
 
+In this workshop, we are using the *limpa* package to load and clean our data. This package was published in 2025 by the [Smyth Lab](https://github.com/SmythLab/limpa), based at the Walter and Eliza Hall Institute of Medical Research (WEHI). 
 
+For background information, see the original publications:
 
-```{r, echo=FALSE, message=FALSE,warning=FALSE}
+Li M, Cobbold SA, Smyth GK (2025). “Quantification and differential analysis of mass spectrometry proteomics data with probabilistic recovery of information from missing values.” bioRxiv, April 29, 651125. doi:10.1101/2025.04.28.651125.
 
+Li M, Smyth GK (2023). “Neither random nor censored: estimating intensity-dependent probabilities for missing values in label-free proteomics.” Bioinformatics, 39(5), btad200. doi:10.1093/bioinformatics/btad200.
+
+You can also find further information in the [vignette](https://bioconductor.org/packages/release/bioc/vignettes/limpa/inst/doc/limpa.html) or [reference manual](https://bioconductor.org/packages/release/bioc/manuals/limpa/man/limpa.pdf) accessed via the [Bioconductor page](https://bioconductor.org/packages/release/bioc/html/limpa.html).
+
+:::
+
+First, load the required R packages.
+
+```{r, eval=FALSE}
 library(limpa)
-library(dplyr)
 library(readxl)
 library(pheatmap)
 library(EnhancedVolcano)
@@ -35,36 +49,83 @@ library(STRINGdb)
 library(clusterProfiler)
 library(org.Hs.eg.db)
 library(arrow)
-
+library(rpx)
+library(dplyr)
 ```
 
-
+Load the peptide-level data processed by DIA-NN (`.parquet` file), filtering observations by quality metrics as recommended in the [limpa vignette](https://bioconductor.org/packages/release/bioc/vignettes/limpa/inst/doc/limpa.html).
 
 ```{r}
+y.peptide <- readDIANN(file='data/MBIntroToProteomics.parquet',format="parquet",
+                       q.columns = c("Q.Value","Lib.Q.Value","Lib.PG.Q.Value"),
+                       q.cutoffs = 0.01)
+```
 
-# Load peptide-level data processed by DIA-NN
-y.peptide <- readDIANN(file='data/report_subset.parquet',format="parquet")
+:::challenge
 
+These quality filtering metrics are recommended in the [limpa vignette](https://bioconductor.org/packages/release/bioc/vignettes/limpa/inst/doc/limpa.html) for data searched in DIA-NN **with match-between-runs**.
+
+What q.columns are recommended for data searched **without MBR**?
+
+:::solution
+
+```{r}
+y.peptide <- readDIANN(file='data/MBIntroToProteomics.parquet',format="parquet",
+                       q.columns = c("Q.Value","Global.Q.Value","Global.PG.Q.Value"),
+                       q.cutoffs = 0.01)
+```
+
+:::
+
+Let's look at the structure of the data.
+
+```{r}
 names(y.peptide)
+
+head(y.peptide$E)
+head(y.peptide$genes)
 ```
 
-## Annotating and filtering our dataset
+As you can see, 'E' is our peptide matrix and 'genes' is a dataframe containing information about each peptide.
 
-In order to do differential expression analysis, we need information about what samples were used.
-
+We also need to import information about our samples for later analyses.
 
 ```{r}
-
-
-# If you are on a Mac, this data needed to be cleaned up a bit with gsub if you download directly from PRIDE
 samples_stool <- as.data.frame(readxl::read_excel('data/SampleAnnotation.xlsx'))
+head(samples_stool)
+```
+
+We need to clean our sample annotation data to add an identifying column which matches the sample column names in our peptide data.
+
+Given we are only using a subset of the main dataset in this workshop, we can also filter the sample annotation dataframe to only include rows pertaining to the samples in our subset.
+
+```{r}
+# Create sample_name column
 samples_stool$fixed_file_name <- gsub("\\\\", "/", samples_stool$file_name)
 samples_stool$fixed_file_name <- basename(samples_stool$fixed_file_name)
 samples_stool$sample_name <- gsub(".mzML", "",samples_stool$fixed_file_name)
 
-
+# Filter to only samples present in our dataset
+samples_stool <- samples_stool %>% filter(samples_stool$sample_name %in% colnames(y.peptide$E))
 ```
 
+## Quality filtering
+
+After reading in the data, it is common to conduct additional filtering to improve the quality of your data and assist with downstream interpretation of results.
+
+- **Filtering out non-proteotypic peptides:** Removes peptides that belong to more than one protein.
+- **Filtering out compound proteins:** Removes peptides belonging to compound protein groups consisting of multiple proteins separated by ";" delimiters.
+- **Filtering out singleton peptides:** Removes peptides that are the only peptide belonging to that protein (i.e. keeps only proteins with multiple peptides).
+
+```{r}
+y.peptide <- filterNonProteotypicPeptides(y.peptide)
+y.peptide <- filterCompoundProteins(y.peptide)
+y.peptide <- filterSingletonPeptides(y.peptide, min.n.peptides = 2)
+```
+
+These filtering steps are optional; limpa will still work if they are not run. For more information about these peptide-level filters and whether they are appropriate for your experiment, please consult the limpa documentation.
+
+## Removing contaminants
 
 
 
@@ -122,24 +183,11 @@ sample_info <- samples_stool[samples_stool$sample_name %in% colnames(y.peptide$E
 rownames(sample_info) <- sample_info$sample_name
 y.peptide$E <- y.peptide$E[,rownames(sample_info)]
 
-```
-
-
-
-```{r}
 # Add experimental metadata
 y.peptide$targets <- sample_info[, c('Class', 'Batch')]
 
-# Apply peptide-level filters
-y.peptide <- filterNonProteotypicPeptides(y.peptide)
-y.peptide <- filterCompoundProteins(y.peptide)
-y.peptide <- filterSingletonPeptides(y.peptide, min.n.peptides = 2)
-
-
 ```
 
-
-For more information on the peptide-level filters, please consult the limpa vignette.
 
 
 ### Dimensionality Reduction and QC

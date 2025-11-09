@@ -57,6 +57,7 @@ episodes: # UPDATE
 # - introduction.Rmd
 - 01dataset.Rmd
 - 02diann.Rmd
+- 03datacleaning.Rmd
 
 # Information for Learners
 learners:

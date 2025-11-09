@@ -119,18 +119,14 @@ for (pkg in bioc_packages) {
 :::: checklist
 ## REQUIRED DATA
 
-In this workshop, we will be using [this dataset](https://www.ebi.ac.uk/pride/archive/projects/PXD047585) downloaded from PRIDE, 
+Please click the links below to download the data required for this workshop:
+
+  - [Parquet file](episodes/data/MBIntroToProteomics.parquet)
+  - [Sample Annotation file](episodes/data/SampleAnnotation.xlsx)
+
+We have pre-processed a subset of [this dataset](https://www.ebi.ac.uk/pride/archive/projects/PXD047585) downloaded from PRIDE, 
 a public repository for mass spectrometry-based proteomics data.
 
 You can read the associated paper [here](https://dx.doi.org/10.3390/BIOMEDICINES12020333).
 
-You do not need to download any data prior to the workshop.
-
 ::::
-
-
-<!--
-FIXME: place any data you want learners to use in `episodes/data` and then use
-       a relative link ( [data zip file](data/lesson-data.zip) ) to provide a
-       link to it, replacing the example.com link.
--->

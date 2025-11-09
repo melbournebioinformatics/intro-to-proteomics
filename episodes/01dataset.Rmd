@@ -23,8 +23,8 @@ The data we are using in this tutorial comes from a study done exploring a non-i
 
 **For the purpose of this tutorial**, we will be using a subset of the total data presented in the paper, including:
 
-- 10 control samples (6 from Batch One + 4 from Batch Three)
-- 10 aCD (active Crohn’s disease) samples (5 from Batch One + 5 from Batch 3)
+- 11 control samples (6 from Batch One + 5 from Batch Three)
+- 9 aCD (active Crohn’s disease) samples (5 from Batch One + 4 from Batch 3)
 
 **Reference**
 Shajari, E.; Gagné, D.; Malick, M.; Roy, P.; Noël, J.-F.; Gagnon, H.; Brunet, M.A.; Delisle, M.; Boisvert, F.-M.; Beaulieu, J.-F. Application of SWATH Mass Spectrometry and Machine Learning in the Diagnosis of Inflammatory Bowel Disease Based on the Stool Proteome. Biomedicines 2024, 12, 333. https://doi.org/10.3390/biomedicines12020333.
