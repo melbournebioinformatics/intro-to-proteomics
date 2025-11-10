@@ -65,15 +65,15 @@ We can filter our results to the top up to 50 most significant differentially ex
 # Save our DEA results as a dataframe
 results <- topTable(fit, coef = 2, number = Inf)
 
-# Limit to the top 50 most significant results
+# Filter for the up to 50 most significant results
 sig_proteins <- results %>%
   filter(adj.P.Val < 0.05) %>% # filter by p value
-  top_n(50, wt = abs(logFC)) %>% # filter by absolute log fold change value
+  top_n(50, wt = abs(logFC)) %>% # filter by absolute log fold change
   pull(Protein.Names)
 expr_matrix <- y.protein$E[sig_proteins, ]
 
 # Scale the data and visualise via heatmap
-scaled_expr <- scale(t(scale(t(expr_matrix))))
+scaled_expr <- t(scale(t(expr_matrix)))
 
 pheatmap(scaled_expr,
          cluster_rows = TRUE,
@@ -84,23 +84,40 @@ pheatmap(scaled_expr,
          clustering_method = 'ward.D')
 ```
 
+:::challenge
+
+How would you interpret this heatmap?
+
+:::solution
+
+As expected, our samples cluster into their respective classes. 
+
+The three proteins with decreased expression in the aCD samples are clearly distinguishable from those with increased expression in the aCD samples.
+
+There are no apparent batch effects confounding these results.
+
+:::
+:::::
+
 ### Volcano plot
 
 We can also visualise our results as a volcano plot using `EnhancedVolcano()`.
 
 ```{r}
 EnhancedVolcano(results,
-                lab = results$Protein.Names,
+                lab = results$Genes,
                 x = 'logFC',
                 y = 'adj.P.Val',
                 pCutoff = 0.05,
                 FCcutoff = 1.0,
                 pointSize = 2.0,
-                labSize = 3.0,
+                labSize = 3.5,
                 drawConnectors = TRUE,
                 maxoverlapsConnectors = Inf,
                 lengthConnectors = unit(0.001, 'npc'),
-                typeConnectors ='closed')
+                typeConnectors ='closed',
+                ylim = c(0, 5),
+                xlim = c(-5, 5))
 ```
 
 
