@@ -59,6 +59,7 @@ episodes: # UPDATE
 - 02diann.Rmd
 - 03datacleaning.Rmd
 - 04DEA.Rmd
+- 05EnrichmentAnalysis.Rmd
 
 # Information for Learners
 learners:
