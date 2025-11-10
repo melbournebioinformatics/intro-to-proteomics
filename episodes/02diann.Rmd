@@ -43,11 +43,13 @@ DIA-NN is free to download. Detailed operating instructions and a link to instal
 
 ## DIA-NN workflow
 
-:::callout
+:::::callout
+
 # Important Note
 
 Due to the amount of time it will take to process the data, you do not need to install or operate DIA-NN for the purposes of this tutorial. Pre-processed data is provided, which has been prepared following the procedures described below.
-:::
+
+:::::
 
 
 ### Part 1: Creating a spectral library
@@ -66,13 +68,13 @@ DIA-NN analysis consists of two steps. The first step is to **generate a predict
     
     e. Select `No` under Compressed and download the Fasta file
     
-:::callout
+:::::callout
 
 # FOR SPECIFIC SEARCHES
 
 If you need to search for a variant protein or peptide that differs from the standard organism proteome, you can manually edit the protein sequences in the UniProt fasta in a text editor.
 
-:::
+:::::
     
 2. **Download a contaminant Fasta file** from [here](https://github.com/HaoGroup-ProtContLib/Protein-Contaminant-Libraries-for-DDA-and-DIA-Proteomics/tree/main). For most studies, the Universal Contaminants.fasta will be appropriate, but you may prefer to use one of the sample-type specific contaminant fastas depending on your experiment. ***More information about this resource and contaminants will be discussed in the next lesson.***
 
@@ -80,11 +82,11 @@ If you need to search for a variant protein or peptide that differs from the sta
 
 4. **Add the UniProt and Contaminant fasta files** you just downloaded. 
 
-:::caution
+:::::caution
 
 At the time of writing, DIA-NN 2.2.0 cannot read or write files saved in an external drive. Please ensure all input and output files are saved on a local drive to avoid error.
 
-:::
+:::::
 
 5. Examples are included below for the additional **settings we recommend changing from the default**. Depending on your experiment and research goals, you may wish to change additional settings from the default - read more in the [DIA-NN documentation](https://github.com/vdemichev/DiaNN?tab=readme-ov-file#changing-default-settings).
 
@@ -140,7 +142,7 @@ The second step is to **search your raw files (mass spectrometry output files)**
 
 3. **Upload your spectral library**.
 
-:::callout
+:::::callout
 
 # Empirical vs predicted spectral library
 
@@ -148,7 +150,7 @@ You may wish to generate an empirical spectral library from your data, and use t
 
 You can generate an empirical library from your samples by selecting **Generate spectral library** and specifying the location of its output.
 
-:::
+:::::
 
 4. **Adjust settings** according to your experiment and research goals. Again, examples are included below for the additional settings we recommend changing from the default. You may wish to change additional settings from the default - read more in the [DIA-NN documentation](https://github.com/vdemichev/DiaNN?tab=readme-ov-file#changing-default-settings).
 
@@ -176,7 +178,7 @@ C:\DIA-NN\2.2.0\diann.exe ` # Replace with file path to DIA-NN on your device
 --rt-profiling 
 ```
 
-:::challenge
+:::::challenge
 
 If you want to run DIA-NN from the command line but are unsure how to write the code, you can update your settings in the GUI, click 'Run', and copy the commands output in the log. That's how we got the example code above! **Can you match each line of code to the corresponding setting in the GUI?**
 
@@ -185,6 +187,7 @@ If you want to run DIA-NN from the command line but are unsure how to write the 
 Check the description of available commands in the [DIA-NN documentation](https://github.com/vdemichev/DiaNN?tab=readme-ov-file#command-line-reference)
 
 :::
+:::::
 
 ## DIA-NN output
 
@@ -208,11 +211,12 @@ Run the `diann-stats.py` Python script provided when you download DIA-NN.
 python C:\DIA-NN\2.2.0\diann-stats.py C:\path\to\report.parquet
 ```
 
+:::
 ::::::::::::::
 
 We have now processed our raw files, identifying the peptides present in our samples and inferring the proteins to which they belong.
 
-:::spoiler
+:::::spoiler
 # More about DIANN
 
 For more background information, see the original publication:  
@@ -221,8 +225,7 @@ For more background information, see the original publication:
 For further details about the different DIA-NN settings, see the [documentation](https://github.com/vdemichev/DiaNN?tab=readme-ov-file).
 
 If you come across any issues, the creators are fairly active at responding to [issues](https://github.com/vdemichev/DiaNN/issues) and [discussions](https://github.com/vdemichev/DiaNN/discussions) on their GitHub.
-
-:::
+:::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 

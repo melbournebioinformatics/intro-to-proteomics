@@ -74,6 +74,7 @@ cran_packages <- c(
   "limpa",           # Proteomics data processing and DE analysis
   "dplyr",           # Data manipulation
   "readxl",          # Read Excel files
+  "stringr",         # Manipulate strings
   "curl",            # Download files from URLs
   "pheatmap",        # Heatmap visualization
   "EnhancedVolcano", # Volcano plots
