@@ -1,24 +1,24 @@
 ---
-title: 'Data cleaning using R'
+title: 'Data cleaning with R'
 teaching: 10
 exercises: 2
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- What is DE analysis
+- How do we convert our processed proteomics data (DIA-NN output) into an analysis-ready format?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- To do DE analysis
+- Understand the steps required to clean proteomics data and generate analysis-ready protein values.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Load processed data and sample annotation 
 
-After processing raw proteomics data, further cleaning and analysis can be conducted using R, Python, or by importing data to other platforms like **Perseus** or **Skyline**.
+After processing raw proteomics data, further cleaning and analysis can be conducted using **(R, Python, or by importing data to other platforms like **Perseus** or **Skyline**.
 
 In this workshop, we will be teaching you one method of cleaning and analysing proteomics data using R. To follow along the remainder of this workshop, you should **open a new R script in RStudio** and **run the example code provided.**
 
@@ -42,7 +42,7 @@ You can also find further information in the [vignette](https://bioconductor.org
 
 First, load the required R packages.
 
-```{r, eval=FALSE}
+```{r, results="hide", message=FALSE, warning = FALSE}
 library(limpa)
 library(readxl)
 library(pheatmap)
@@ -93,7 +93,7 @@ head(y.peptide$genes)
 
 As you can see, our data has been imported as a limma EList object, with components **'E' (log2 peptide matrix)** and **'genes' (feature annotation)** containing information about each peptide.
 
-### Load sample data
+### Load sample annotation
 
 We also need to import information about our samples for later analyses.
 
@@ -130,13 +130,12 @@ y.peptide$targets <- sample_info[, c('Class', 'Batch')]
 # Set colors for later plotting
 Class <- factor(y.peptide$targets$Class)
 Class.color <- Class
-levels(Class.color) <- hcl.colors(nlevels(Class), palette = "Set 2")
+levels(Class.color) <- hcl.colors(nlevels(Class), palette = "cividis")
 
 Batch <- factor(y.peptide$targets$Batch)
 Batch.color <- Batch
-levels(Batch.color) <- hcl.colors(nlevels(Batch), palette = "cividis")
+levels(Batch.color) <- hcl.colors(nlevels(Batch), palette = "Set 2")
 ```
-
 
 ## Quality filtering
 
@@ -259,17 +258,17 @@ names(y.protein$other)
 names(y.protein$genes)
 ```
 
-| EList Component     | Description                                                                         |
-| ------              | ------------------                                                                        |
-| **E**               | A complete matrix of log2 protein values with no missing data, with samples as columns and proteins as rows |
-| **genes**           | Feature annotation dataframe, including UniProt IDs (Protein.Group), proteins (Protein.Names), gene names (Genes), number of peptides used to quantify each protein (NPeptides), and the proportion of possible observations used to generate each protein value (PropObs) |
-| **other**           | Two matrices with columns and rows corresponding to E: number of peptides observed in each sample for each protein (n.observations) and the standard error associated with each protein value for each sample (standard.error) |
-| **targets**         | Sample annotation dataframe |
-| **dpc**             | DPC intercept and slope coefficient used for protein quantification |
+| EList component   | Description                                                                         |
+| :-----:           | ------------------                                                                        |
+| **E**             | A complete matrix of log2 protein values with no missing data, with samples as columns and proteins as rows |
+| **genes**         | Feature annotation dataframe, with columns for: UniProt IDs (Protein.Group), proteins (Protein.Names), gene names (Genes), number of peptides used to quantify each protein (NPeptides), and the proportion of possible observations used to generate each protein value (PropObs) |
+| **other**         | List of two matrices with columns and rows corresponding to protein matrix E: number of peptides observed for each protein in each sample (n.observations), and the standard error associated with each protein value for each sample (standard.error) |
+| **targets**       | Sample annotation dataframe |
+| **dpc**           | DPC intercept and slope coefficient used for protein quantification |
 
 :::::challenge
 
-Compare the first few rows of the protein (E), n.observations and standard.error matrices. Take a look at the NPeptides and PropObs values for those proteins also. What do you notice about the relationship between these values?
+Compare the first few rows of the *protein (E)*, *n.observations* and *standard.error* matrices. Take a look at the *NPeptides* and *PropObs* values for those proteins also. What do you notice about the relationship between these quality metrics?
 
 :::solution
 
@@ -282,247 +281,68 @@ If you are interested in a particular protein, it is important to look at these 
 :::
 :::::
 
+## Dimensionality Reduction and QC
 
-
-### Dimensionality Reduction and QC
-
-
-
-
-
-
-That plot is extremely messy and doesn't tell us much! Let's clean it up.
-
-
-
+Let's take a look at our dataset. The `plotMDSUsingSEs()` function, or *Multidimensional Scaling Plot of Gene Expression Profiles, Using Standard Errors*, is similar to `plotMDS()` in the *limma* package, but takes account of the standard errors generated by `dpcQuant()`. This is essentially a PCA plot for the newly generated protein values that takes into consideration their standard error.
 
 ```{r}
 plotMDSUsingSEs(y.protein)
+```
 
+That plot is extremely messy and doesn't tell us much! Let's clean it up using the Class and Batch coloring we generated earlier.
+
+```{r}
 # Class visualisation
-
 plotMDSUsingSEs(y.protein, pch=16, col=as.character(Class.color))
 
-```
-
-Hmmm, not a lot of differences. Let's see if there are any batch effects.
-
-```{r}
-
 # Batch visualisation
-
 plotMDSUsingSEs(y.protein, pch=16, col=as.character(Batch.color))
 
+# Class (labels) and batch (colors) visualisation
+plotMDSUsingSEs(y.protein, labels=Class, col=as.character(Batch.color))
 ```
 
-It looks like there are some differences between the batches. Let's remove the batch effects and see how it looks.
+We can already see a distinction between the aCD and Ctrl groups, which will be explored further in the next lesson.
 
+It also looks like there are some differences between the batches. **We should add batch as a covariate to our analyses in the next lesson.**
 
-```{r}
+:::callout
 
-# Correct for batch effects
-y.protein.rbe <- removeBatchEffect(y.protein,batch = y.protein$targets$Batch)
-plotMDS(y.protein.rbe, pch=16, col=as.character(Batch.color))
+Explaining the different methods of identifying, accounting and correcting for batch effects in proteomics data is an entire workshop itself! For further information, we recommend the [Melbourne Integrative Genomics Workshop: Managing batch effects in biological studies](https://github.com/melbintgen/Batch-effect-management?tab=readme-ov-file).
 
-```
+If you are concerned about batch effects in your data, University of Melbourne staff and students or affiliates can also [contact us](https://mdhs.unimelb.edu.au/melbournebioinformatics/training-and-support/expert-advice) for a free consultation.
 
-## Subset Comparison: Ctrl vs aUC
+:::
 
-```{r}
+### Normalisation
 
-cdr_bool <- y.peptide$targets$Class %in% c('Ctrl','aUC')
+Normalisation is another key element of the proteomics data cleaning workflow. Normalisation techniques aim to remove non-biological variation in the data, for example, variation due to sample loading or batch effects.
 
-plotMDSUsingSEs(y.protein[, cdr_bool], 
-                pch=16, col=as.character(Class.color[cdr_bool]))
+The default RT-dependent normalisation applied during DIA-NN processing is quite effective and often sufficient for DIA data; however, each experimental environment and techniques will have a different optimal approach. You may wish to apply an additional method of normalisation to your data.
 
-plotMDS(y.protein[, cdr_bool], 
-         pch=16, col=as.character(Class.color[cdr_bool]))
+To learn more about normalisation, keep an eye on the [Melbourne Bioinformatics Eventbrite page](https://www.eventbrite.com.au/o/melbourne-bioinformatics-13058846490) for a normalisation workshop coming in 2026.
 
-plotMDS(y.protein.rbe[, cdr_bool], 
-         pch=16, col=as.character(Class.color[cdr_bool]))
+:::spoiler
+# More about normalisation
 
+To learn more about different normalisation techniques for proteomics data, we recommend the following papers:
 
-```
+Peng, H., Wang, H., Kong, W., Li, J., & Goh, W. W. B. (2024). Optimizing differential expression analysis for proteomics data via high-performing rules and ensemble inference. Nature communications, 15(1), 3922. https://doi.org/10.1038/s41467-024-47899-w
 
-We should add batch as a covariate to our analysis.
+Tseng, C. Y., Salguero, J. A., Breidenbach, J. D., Solomon, E., Sanders, C. K., Harvey, T., Thornhill, M. G., Palmisano, S. J., Sasiene, Z. J., Blackwell, B. R., McBride, E. M., Luchini, K. A., LeBrun, E. S., Alvarez, M., Mach, P. M., Rivera, E. S., & Glaros, T. G. (2025). Evaluation of normalization strategies for mass spectrometry-based multi-omics datasets. Metabolomics : Official journal of the Metabolomic Society, 21(4), 98. https://doi.org/10.1007/s11306-025-02297-1
 
-## Differential Expression Analysis
+Välikangas, T., Suomi, T., & Elo, L. L. (2018). A systematic evaluation of normalization methods in quantitative label-free proteomics. Briefings in bioinformatics, 19(1), 1–11. https://doi.org/10.1093/bib/bbw095
 
-We now fit a linear model that includes both Class and Batch effects.
+:::
 
-```{r}
 
-design <- model.matrix(~0 + Class + Batch)
-fit <- dpcDE(y.protein, design, plot = TRUE)
-fit <- eBayes(fit)
-
-
-
-```
-
-```{r}
-
-topTable(fit, coef = "ClassCtrl")
-
-
-```
-
-## Create and Explore Contrasts
-
-We can define custom contrasts (e.g., comparing aCD vs Ctrl) and explore differential proteins.
-
-```{r}
-
-# Define contrasts
-contrasts_fit <- makeContrasts(Ctrl_aCD = ClassaCD - ClassCtrl, 
-                               levels = colnames(design))
-
-# Apply contrasts
-fit2 <- contrasts.fit(fit, contrasts = contrasts_fit)
-fit2 <- eBayes(fit2)
-
-# Summaries
-topTable(fit2, coef = 1)
-
-```
-
-```{r}
-
-# Compare multiple coefficients
-topTable(fit, coef = 1)
-topTable(fit, coef = 3)
-topTable(fit, coef = 4)
-topTable(fit, coef = 6)
-
-# Example diagnostic plots
-plotMD(fit, coef = 1)
-plotMD(fit, coef = 2)
-
-```
-
-## Example: aUC vs Ctrl Comparison
-
-```{r}
-
-results <- topTable(fit, coef = 3, number = Inf)
-
-# Visualize a specific protein
-plotProtein(y.protein, "S10A9_HUMAN", col = as.character(Class.color))
-legend('topleft', legend = levels(Class), fill = levels(Class.color))
-
-```
-
-## Visualize Top Significant Proteins
-
-We identify the top 50 most significant and variable proteins, then visualize via a clustered heatmap.
-
-```{r}
-
-sig_proteins <- results %>%
-  filter(adj.P.Val < 0.05) %>%
-  top_n(50, wt = abs(logFC)) %>%
-  pull(Protein.Names)
-
-expr_matrix <- y.protein$E[sig_proteins, ]
-scaled_expr <- t(scale(t(expr_matrix)))
-
-col_annotation <- data.frame(Class = Class,
-                             row.names = colnames(y.protein$E))
-
-pheatmap(scaled_expr,
-         cluster_rows = TRUE,
-         cluster_cols = TRUE,
-         show_rownames = TRUE,
-         show_colnames = FALSE,
-         annotation_col = col_annotation)
-
-```
-
-
-## Volcano plot
-
-```{r}
-
-
-EnhancedVolcano(results,
-                lab = results$Protein.Names,
-                x = 'logFC',
-                y = 'adj.P.Val',
-                pCutoff = 0.05,
-                FCcutoff = 1.0,
-                pointSize = 3.0,
-                labSize = 3.0)
-
-
-```
-
-
-## Network and Enrichment Analysis
-
-### STRING Protein–Protein Interaction Network
-
-Note: this part does not seem to be working
-
-```{r, eval=FALSE}
-
-string_db <- STRINGdb$new(version = "11.5", species = 9606, score_threshold = 400)
-mapped <- string_db$map(results, "Protein.Names", removeUnmappedRows = TRUE)
-de_proteins <- mapped %>% filter(adj.P.Val < 0.05)
-
-# Plot network of significant proteins
-string_db$plot_network(de_proteins$STRING_id)
-
-```
-
-### Functional Enrichment (GO and KEGG)
-
-```{r}
-
-de_proteins <- results %>% filter(adj.P.Val < 0.05)
-
-# Convert UniProt IDs to Entrez IDs for enrichment
-converted <- bitr(de_proteins$Protein.Group,
-                  fromType = "UNIPROT",
-                  toType = "ENTREZID",
-                  OrgDb = org.Hs.eg.db)
-
-# GO Biological Process enrichment
-ego <- enrichGO(gene = converted$ENTREZID,
-                OrgDb = org.Hs.eg.db,
-                ont = "BP",
-                pAdjustMethod = "BH",
-                pvalueCutoff = 0.05,
-                readable = TRUE)
-
-dotplot(ego, showCategory = 10)
-
-# KEGG pathway enrichment
-ekegg <- enrichKEGG(gene = converted$ENTREZID,
-                    organism = 'hsa',
-                    pvalueCutoff = 0.05)
-
-dotplot(ekegg, showCategory = 10)
-
-
-```
-
-
-## Potential next steps
-
-* Compare coefficients between classes as an exercise.
-
-* Visualize selected proteins of interest across experimental groups.
-
-* Extend enrichment analyses using Reactome or GSEA approaches.
-
-* Integrate sample metadata for clinical covariates or longitudinal modeling.
-
-
+Good work! We now have a clean dataset ready for analysis.
 
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Data!
+- Key elements of the proteomics data cleaning workflow include quality filtering, removing contaminants, protein quantification, managing batch effects, and normalisation.
+- We can use the *limpa* package in R to clean our peptide data and generate a complete, analysis-ready protein matrix with corresponding standard error values.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
