@@ -58,6 +58,7 @@ episodes: # UPDATE
 - 01dataset.Rmd
 - 02diann.Rmd
 - 03datacleaning.Rmd
+- 04DEA.Rmd
 
 # Information for Learners
 learners:
