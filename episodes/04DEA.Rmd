@@ -6,195 +6,108 @@ exercises: 2
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- What is DE analysis
+- How can we identify the differentially expressed proteins between experimental groups?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- To do DE analysis
+- Conduct differential expression analysis using *limpa*
+- Visualise the top differentially expressed proteins
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Differential Expression Analysis
 
-Now it is time to analyse our data and investigate proteins that are differentially expressed between our two experimental groups (control vs active Crohn’s disease).
+Now it is time to analyse our data and investigate proteins that are differentially expressed between our two experimental groups (control vs active Crohn’s disease). We will make use of the *limma* package and closely related *limpa* functions specifically designed for proteomics data. 
 
-We now fit a linear model that includes both Class and Batch effects.
+First, we will fit a linear model that includes both Class and Batch effects.
 
 ```{r}
+# Set the control group as our reference
+Class <- relevel(Class, ref = "Ctrl")
+## We also need to reset our colors to match the correct labels
+Class.color <- Class
+levels(Class.color) <- hcl.colors(nlevels(Class), palette = "cividis")
 
-design <- model.matrix(~0 + Class + Batch)
+# Fit a linear model
+design <- model.matrix(~Class + Batch)
+design
+```
+
+We can see both Class and Batch accounted for in our design matrix. 
+
+Now we run the *limpa* differential expression analysis function `dpcDE()` to identify the top differentially expressed proteins in our dataset.
+
+```{r}
 fit <- dpcDE(y.protein, design, plot = TRUE)
 fit <- eBayes(fit)
-
-
-
+topTable(fit, coef = 2)
 ```
 
-```{r}
-
-topTable(fit, coef = "ClassCtrl")
-
-
-```
-
-## Create and Explore Contrasts
-
-We can define custom contrasts (e.g., comparing aCD vs Ctrl) and explore differential proteins.
+We can visualise the log2 expression values for differentially expressed proteins, together with standard errors.
 
 ```{r}
-
-# Define contrasts
-contrasts_fit <- makeContrasts(Ctrl_aCD = ClassaCD - ClassCtrl, 
-                               levels = colnames(design))
-
-# Apply contrasts
-fit2 <- contrasts.fit(fit, contrasts = contrasts_fit)
-fit2 <- eBayes(fit2)
-
-# Summaries
-topTable(fit2, coef = 1)
-
-```
-
-```{r}
-
-# Compare multiple coefficients
-topTable(fit, coef = 1)
-topTable(fit, coef = 3)
-topTable(fit, coef = 4)
-topTable(fit, coef = 6)
-
-# Example diagnostic plots
-plotMD(fit, coef = 1)
-plotMD(fit, coef = 2)
-
-```
-
-## Example: aUC vs Ctrl Comparison
-
-```{r}
-
-results <- topTable(fit, coef = 3, number = Inf)
-
-# Visualize a specific protein
-plotProtein(y.protein, "S10A9_HUMAN", col = as.character(Class.color))
+plotProtein(y.protein, "PRTN3_HUMAN", col = as.character(Class.color))
 legend('topleft', legend = levels(Class), fill = levels(Class.color))
 
+plotProtein(y.protein, "S10A9_HUMAN", col = as.character(Class.color))
+legend('topleft', legend = levels(Class), fill = levels(Class.color))
 ```
 
-## Visualize Top Significant Proteins
+## Visualise differentially expressed proteins
 
-We identify the top 50 most significant and variable proteins, then visualize via a clustered heatmap.
+### Heatmap
+
+We can filter our results to the top up to 50 most significant differentially expressed proteins, then visualise via a clustered heatmap.
 
 ```{r}
+# Save our DEA results as a dataframe
+results <- topTable(fit, coef = 2, number = Inf)
 
+# Limit to the top 50 most significant results
 sig_proteins <- results %>%
-  filter(adj.P.Val < 0.05) %>%
-  top_n(50, wt = abs(logFC)) %>%
+  filter(adj.P.Val < 0.05) %>% # filter by p value
+  top_n(50, wt = abs(logFC)) %>% # filter by absolute log fold change value
   pull(Protein.Names)
-
 expr_matrix <- y.protein$E[sig_proteins, ]
-scaled_expr <- t(scale(t(expr_matrix)))
 
-col_annotation <- data.frame(Class = Class,
-                             row.names = colnames(y.protein$E))
+# Scale the data and visualise via heatmap
+scaled_expr <- scale(t(scale(t(expr_matrix))))
 
 pheatmap(scaled_expr,
          cluster_rows = TRUE,
          cluster_cols = TRUE,
          show_rownames = TRUE,
          show_colnames = FALSE,
-         annotation_col = col_annotation)
-
+         annotation_col = y.protein$targets,
+         clustering_method = 'ward.D')
 ```
 
+### Volcano plot
 
-## Volcano plot
+We can also visualise our results as a volcano plot using `EnhancedVolcano()`.
 
 ```{r}
-
-
 EnhancedVolcano(results,
                 lab = results$Protein.Names,
                 x = 'logFC',
                 y = 'adj.P.Val',
                 pCutoff = 0.05,
                 FCcutoff = 1.0,
-                pointSize = 3.0,
-                labSize = 3.0)
-
-
+                pointSize = 2.0,
+                labSize = 3.0,
+                drawConnectors = TRUE,
+                maxoverlapsConnectors = Inf,
+                lengthConnectors = unit(0.001, 'npc'),
+                typeConnectors ='closed')
 ```
-
-
-## Network and Enrichment Analysis
-
-### STRING Protein–Protein Interaction Network
-
-Note: this part does not seem to be working
-
-```{r, eval=FALSE}
-
-string_db <- STRINGdb$new(version = "11.5", species = 9606, score_threshold = 400)
-mapped <- string_db$map(results, "Protein.Names", removeUnmappedRows = TRUE)
-de_proteins <- mapped %>% filter(adj.P.Val < 0.05)
-
-# Plot network of significant proteins
-string_db$plot_network(de_proteins$STRING_id)
-
-```
-
-### Functional Enrichment (GO and KEGG)
-
-```{r}
-
-de_proteins <- results %>% filter(adj.P.Val < 0.05)
-
-# Convert UniProt IDs to Entrez IDs for enrichment
-converted <- bitr(de_proteins$Protein.Group,
-                  fromType = "UNIPROT",
-                  toType = "ENTREZID",
-                  OrgDb = org.Hs.eg.db)
-
-# GO Biological Process enrichment
-ego <- enrichGO(gene = converted$ENTREZID,
-                OrgDb = org.Hs.eg.db,
-                ont = "BP",
-                pAdjustMethod = "BH",
-                pvalueCutoff = 0.05,
-                readable = TRUE)
-
-dotplot(ego, showCategory = 10)
-
-# KEGG pathway enrichment
-ekegg <- enrichKEGG(gene = converted$ENTREZID,
-                    organism = 'hsa',
-                    pvalueCutoff = 0.05)
-
-dotplot(ekegg, showCategory = 10)
-
-
-```
-
-
-## Potential next steps
-
-* Compare coefficients between classes as an exercise.
-
-* Visualize selected proteins of interest across experimental groups.
-
-* Extend enrichment analyses using Reactome or GSEA approaches.
-
-* Integrate sample metadata for clinical covariates or longitudinal modeling.
-
-
 
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- DEA
+- We can fit a linear model to our data and conduct differential expression analysis using *limpa* and *limma* functions.
+- There are many different ways to visualise differentially expressed proteins.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
