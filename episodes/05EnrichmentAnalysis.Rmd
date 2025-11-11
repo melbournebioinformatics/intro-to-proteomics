@@ -16,6 +16,93 @@ exercises: 2
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+```{r cleaning, include=FALSE}
+library(limpa)
+library(readxl)
+library(pheatmap)
+library(EnhancedVolcano)
+library(STRINGdb)
+library(clusterProfiler)
+library(org.Hs.eg.db)
+library(arrow)
+library(rpx)
+library(dplyr)
+library(stringr)
+
+y.peptide <- readDIANN(file='data/MBIntroToProteomics.parquet',format="parquet",
+                       q.columns = c("Q.Value","Lib.Q.Value","Lib.PG.Q.Value"),
+                       q.cutoffs = 0.01)
+
+samples_stool <- as.data.frame(readxl::read_excel('data/SampleAnnotation.xlsx'))
+
+# Create sample_name column that matches peptide matrix column names
+samples_stool$fixed_file_name <- gsub("\\\\", "/", samples_stool$file_name)
+samples_stool$fixed_file_name <- basename(samples_stool$fixed_file_name)
+samples_stool$sample_name <- gsub(".mzML", "",samples_stool$fixed_file_name)
+
+# Filter to only samples present in our dataset
+samples_stool <- samples_stool %>% filter(samples_stool$sample_name %in% colnames(y.peptide$E))
+
+# Ensure sample row order matches column order of the peptide matrix
+sample_info <- samples_stool[samples_stool$sample_name %in% colnames(y.peptide$E),]
+rownames(sample_info) <- sample_info$sample_name
+y.peptide$E <- y.peptide$E[,rownames(sample_info)]
+
+# Add experimental metadata to EList
+y.peptide$targets <- sample_info[, c('Class', 'Batch')]
+
+y.peptide <- filterNonProteotypicPeptides(y.peptide)
+y.peptide <- filterCompoundProteins(y.peptide)
+y.peptide <- filterSingletonPeptides(y.peptide, min.n.peptides = 2)
+
+# Remove contaminant proteins from the genes dataframe
+y.peptide$genes <- y.peptide$genes %>% filter(!str_detect(Protein.Group, "Cont_"))
+
+# Match peptides in the matrix to only those remaining in the dataframe
+y.peptide$E <- y.peptide$E[rownames(y.peptide$genes), ]
+
+# Estimate the DPC for our data
+dpcfit <- dpcON(y.peptide, robust=TRUE)
+
+y.protein <- dpcQuant(y.peptide, "Protein.Names", dpc=dpcfit)
+
+# Factorise and set colors for class and batch
+Class <- factor(y.peptide$targets$Class)
+Class.color <- Class
+levels(Class.color) <- hcl.colors(nlevels(Class), palette = "cividis")
+
+Batch <- factor(y.peptide$targets$Batch)
+Batch.color <- Batch
+levels(Batch.color) <- hcl.colors(nlevels(Batch), palette = "Set 2")
+```
+
+```{r DEA, include=FALSE}
+# Set the control group as our reference
+Class <- relevel(Class, ref = "Ctrl")
+## We also need to reset our colors to match the correct labels
+Class.color <- Class
+levels(Class.color) <- hcl.colors(nlevels(Class), palette = "cividis")
+
+# Fit a linear model
+design <- model.matrix(~Class + Batch)
+
+fit <- dpcDE(y.protein, design, plot = TRUE)
+fit <- eBayes(fit)
+
+# Save our DEA results as a dataframe
+results <- topTable(fit, coef = 2, number = Inf)
+
+# Filter for the up to 50 most significant results
+sig_proteins <- results %>%
+  filter(adj.P.Val < 0.05) %>% # filter by p value
+  top_n(50, wt = abs(logFC)) %>% # filter by absolute log fold change
+  pull(Protein.Names)
+expr_matrix <- y.protein$E[sig_proteins, ]
+
+# Scale the data and visualise via heatmap
+scaled_expr <- t(scale(t(expr_matrix)))
+```
+
 ## Network and Enrichment Analysis
 
 ### STRING Protein–Protein Interaction Network
