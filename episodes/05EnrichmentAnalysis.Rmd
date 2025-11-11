@@ -6,13 +6,15 @@ exercises: 2
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- What is DE analysis
+- How can DE results be used to identify biologically meaningful patterns?  
+- How can we visualise and interpret protein–protein interaction (PPI) networks and pathway enrichment results?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- To do DE analysis
+- To visualise significant proteins using network analysis (STRING)  
+- To identify enriched biological processes and pathways (GO and KEGG)  
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -109,11 +111,15 @@ scaled_expr <- t(scale(t(expr_matrix)))
 
 ## Network and Enrichment Analysis
 
-Now that we have a list of differentially expressed genes, 
+Now that we have a list of differentially expressed proteins, we can explore how these proteins interact with each other and what biological functions or pathways they are involved in.
+
+This step helps translate statistical significance into biological meaning by integrating our results with known protein–protein interactions (PPI) and functional annotation databases.
 
 ### STRING Protein–Protein Interaction Network
 
-Note: this part does not seem to be working
+The STRING database integrates known and predicted protein–protein interactions from multiple sources (e.g., experimental data, text mining, co-expression, and curated databases).
+
+We can visualise DE proteins within the context of their interaction network to identify clusters or modules potentially corresponding to biological pathways.
 
 ```{r, eval=FALSE}
 
@@ -127,7 +133,7 @@ string_db$plot_network(de_proteins_mapped$STRING_id)
 ```
 
 
-If not working, use this:
+Note if not working, use this:
 
 ```{r}
 
@@ -135,20 +141,41 @@ load("data/string_db.RData")
 
 de_proteins_mapped <- mapped %>% filter(adj.P.Val < 0.05)
 
+hits <- de_proteins_mapped$STRING_id
+
 # Plot network of significant proteins
-string_db$plot_network(de_proteins_mapped$STRING_id)
+string_db$plot_network(hits)
 
 
 ```
 
-
-### Functional Enrichment (GO and KEGG)
+You can inspect available functions within the STRINGdb package by running:
 
 ```{r}
 
+STRINGdb$methods()
+
+```
+
+
+
+### Functional Enrichment (GO and KEGG)
+
+Using the identified significant DE proteins, we can perform functional enrichment analysis to determine whether certain biological processes (BP), cellular components (CC), or molecular functions (MF) are over-represented.
+
+Two common types of enrichment are:
+
+- Gene Ontology (GO): describes BPs, CCs, amd MFs
+- KEGG pathways: provides curated biochemical pathways
+
+
+
+```{r}
+
+#Subset genes from results table
 de_proteins <- results %>% filter(adj.P.Val < 0.05)
 
-# Convert UniProt IDs to Entrez IDs for enrichment
+# Convert UniProt IDs to Entrez IDs for enrichment analysis
 converted <- bitr(de_proteins$Protein.Group,
                   fromType = "UNIPROT",
                   toType = "ENTREZID",
@@ -174,14 +201,29 @@ dotplot(ekegg, showCategory = 10)
 
 ```
 
+:::challenge
 
+How does this figure compare to [Figure 4](https://mdpi-res.com/biomedicines/biomedicines-12-00333/article_deploy/html/images/biomedicines-12-00333-g004.png) in the original paper?
+
+:::solution
+
+While there are many immune-related pathways in both, the exact pathways are not identical. This is likely due to the fact we are using a subset of the larger dataset.
+
+
+
+
+:::
+:::::
 
 
 
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- DEA
+- DE analysis identifies statistically significant changes in protein abundance between conditions.
+- Network analysis (STRING) reveals potential physical or functional interactions among DE proteins.
+- Enrichment analysis (GO/KEGG) links those proteins to known biological processes or pathways.
+- Using multiple approaches can help you interpret proteomics data in a systems biology context.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
