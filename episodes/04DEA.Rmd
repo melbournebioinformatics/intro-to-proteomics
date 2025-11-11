@@ -17,7 +17,8 @@ exercises: 2
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-```{r cleaning, include=FALSE}
+
+```{r, results="hide", message=FALSE, warning = FALSE, echo=FALSE}
 library(limpa)
 library(readxl)
 library(pheatmap)
@@ -35,6 +36,7 @@ y.peptide <- readDIANN(file='data/MBIntroToProteomics.parquet',format="parquet",
                        q.cutoffs = 0.01)
 
 samples_stool <- as.data.frame(readxl::read_excel('data/SampleAnnotation.xlsx'))
+head(samples_stool)
 
 # Create sample_name column that matches peptide matrix column names
 samples_stool$fixed_file_name <- gsub("\\\\", "/", samples_stool$file_name)
@@ -52,6 +54,15 @@ y.peptide$E <- y.peptide$E[,rownames(sample_info)]
 # Add experimental metadata to EList
 y.peptide$targets <- sample_info[, c('Class', 'Batch')]
 
+# Set colors for later plotting
+Class <- factor(y.peptide$targets$Class)
+Class.color <- Class
+levels(Class.color) <- hcl.colors(nlevels(Class), palette = "cividis")
+
+Batch <- factor(y.peptide$targets$Batch)
+Batch.color <- Batch
+levels(Batch.color) <- hcl.colors(nlevels(Batch), palette = "Set 2")
+
 y.peptide <- filterNonProteotypicPeptides(y.peptide)
 y.peptide <- filterCompoundProteins(y.peptide)
 y.peptide <- filterSingletonPeptides(y.peptide, min.n.peptides = 2)
@@ -62,21 +73,16 @@ y.peptide$genes <- y.peptide$genes %>% filter(!str_detect(Protein.Group, "Cont_"
 # Match peptides in the matrix to only those remaining in the dataframe
 y.peptide$E <- y.peptide$E[rownames(y.peptide$genes), ]
 
-# Estimate the DPC for our data
 dpcfit <- dpcON(y.peptide, robust=TRUE)
+
+# Print the intercept and slope of our DPC
+dpcfit$dpc
+
 
 y.protein <- dpcQuant(y.peptide, "Protein.Names", dpc=dpcfit)
 
-# Factorise and set colors for class and batch
-Class <- factor(y.peptide$targets$Class)
-Class.color <- Class
-levels(Class.color) <- hcl.colors(nlevels(Class), palette = "cividis")
 
-Batch <- factor(y.peptide$targets$Batch)
-Batch.color <- Batch
-levels(Batch.color) <- hcl.colors(nlevels(Batch), palette = "Set 2")
 ```
-
 
 ## Differential Expression Analysis
 
