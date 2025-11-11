@@ -17,6 +17,73 @@ exercises: 2
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+
+```{r, results="hide", message=FALSE, warning = FALSE, echo=FALSE}
+library(limpa)
+library(readxl)
+library(pheatmap)
+library(EnhancedVolcano)
+library(STRINGdb)
+library(clusterProfiler)
+library(org.Hs.eg.db)
+library(arrow)
+library(rpx)
+library(dplyr)
+library(stringr)
+
+y.peptide <- readDIANN(file='data/MBIntroToProteomics.parquet',format="parquet",
+                       q.columns = c("Q.Value","Lib.Q.Value","Lib.PG.Q.Value"),
+                       q.cutoffs = 0.01)
+
+samples_stool <- as.data.frame(readxl::read_excel('data/SampleAnnotation.xlsx'))
+head(samples_stool)
+
+# Create sample_name column that matches peptide matrix column names
+samples_stool$fixed_file_name <- gsub("\\\\", "/", samples_stool$file_name)
+samples_stool$fixed_file_name <- basename(samples_stool$fixed_file_name)
+samples_stool$sample_name <- gsub(".mzML", "",samples_stool$fixed_file_name)
+
+# Filter to only samples present in our dataset
+samples_stool <- samples_stool %>% filter(samples_stool$sample_name %in% colnames(y.peptide$E))
+
+# Ensure sample row order matches column order of the peptide matrix
+sample_info <- samples_stool[samples_stool$sample_name %in% colnames(y.peptide$E),]
+rownames(sample_info) <- sample_info$sample_name
+y.peptide$E <- y.peptide$E[,rownames(sample_info)]
+
+# Add experimental metadata to EList
+y.peptide$targets <- sample_info[, c('Class', 'Batch')]
+
+# Set colors for later plotting
+Class <- factor(y.peptide$targets$Class)
+Class.color <- Class
+levels(Class.color) <- hcl.colors(nlevels(Class), palette = "cividis")
+
+Batch <- factor(y.peptide$targets$Batch)
+Batch.color <- Batch
+levels(Batch.color) <- hcl.colors(nlevels(Batch), palette = "Set 2")
+
+y.peptide <- filterNonProteotypicPeptides(y.peptide)
+y.peptide <- filterCompoundProteins(y.peptide)
+y.peptide <- filterSingletonPeptides(y.peptide, min.n.peptides = 2)
+
+# Remove contaminant proteins from the genes dataframe
+y.peptide$genes <- y.peptide$genes %>% filter(!str_detect(Protein.Group, "Cont_"))
+
+# Match peptides in the matrix to only those remaining in the dataframe
+y.peptide$E <- y.peptide$E[rownames(y.peptide$genes), ]
+
+dpcfit <- dpcON(y.peptide, robust=TRUE)
+
+# Print the intercept and slope of our DPC
+dpcfit$dpc
+
+
+y.protein <- dpcQuant(y.peptide, "Protein.Names", dpc=dpcfit)
+
+
+```
+
 ## Differential Expression Analysis
 
 Now it is time to analyse our data and investigate proteins that are differentially expressed between our two experimental groups (control vs active Crohn’s disease). We will make use of the *limma* package and closely related *limpa* functions specifically designed for proteomics data. 
