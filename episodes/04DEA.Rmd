@@ -164,7 +164,7 @@ There are no apparent batch effects confounding these results.
 
 We can also visualise our results as a volcano plot using `EnhancedVolcano()`.
 
-```{r}
+```{r message=FALSE,warning=FALSE}
 EnhancedVolcano(results,
                 lab = results$Genes,
                 x = 'logFC',
