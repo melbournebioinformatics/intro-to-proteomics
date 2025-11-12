@@ -68,7 +68,14 @@ The `rpx` package gives us programmatic access to the ProteomeXchange without ha
 # Set the dataset identifier and load
 px_id <- 'PXD047585' 
 px <- PXDataset(px_id)
+```
 
+
+
+We can then perform several functions to extract the contents of the `px` object:
+
+
+``` r
 # Print the dataset title
 pxtitle(px)
 ```
@@ -95,15 +102,21 @@ pxtax(px)
 [1] "Homo sapiens (human)"
 ```
 
+
 ### Exploring dataset files
 
 Let’s see which files are included in this dataset.
 
 
+
 ``` r
 # Retrieve a list of dataset files
 px_files <- pxfiles(px)
+```
 
+
+
+``` r
 # Display the first few files
 head(px_files)
 ```
@@ -116,6 +129,7 @@ head(px_files)
 [5] "20201016_UdSjfb_20190115_freshstool_005.wiff"     
 [6] "20201016_UdSjfb_20190115_freshstool_005.wiff.scan"
 ```
+
 
 PRIDE datasets often include a mix of raw data, search results, processed outputs, and metadata.
 
