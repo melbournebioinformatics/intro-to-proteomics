@@ -62,11 +62,22 @@ library(dplyr)
 
 The `rpx` package gives us programmatic access to the ProteomeXchange without having to leave R.
 
-```{r LoadData, message=FALSE, warning=FALSE}
+```{r LoadData, eval=FALSE}
 # Set the dataset identifier and load
 px_id <- 'PXD047585' 
 px <- PXDataset(px_id)
 
+```
+
+```{r,echo=FALSE}
+
+load('data/px.RData')
+
+```
+
+We can then perform several functions to extract the contents of the `px` object:
+
+```{r}
 # Print the dataset title
 pxtitle(px)
 
@@ -76,6 +87,7 @@ pxurl(px)
 # Print the taxonomy (organism) information for the dataset
 pxtax(px)
 ```
+
 
 ### Exploring dataset files
 
