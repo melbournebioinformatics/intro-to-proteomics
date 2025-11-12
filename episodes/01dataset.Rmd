@@ -93,13 +93,19 @@ pxtax(px)
 
 Let’s see which files are included in this dataset.
 
-```{r getFiles, message=FALSE, warning=FALSE}
+
+```{r getFiles, eval=FALSE}
 # Retrieve a list of dataset files
 px_files <- pxfiles(px)
 
+```
+
+
+```{r displayFiles}
 # Display the first few files
 head(px_files)
 ```
+
 
 PRIDE datasets often include a mix of raw data, search results, processed outputs, and metadata.
 
