@@ -4,7 +4,7 @@ title: Setup
 
 ## Workshop overview
 
-This workshop will introduce participants to proteomic data processing, cleaning, and analysis, 
+This workshop will introduce participants to **proteomic data processing, cleaning, and analysis**, 
 with a focus on **label-free, bottom-up, DIA, mass-spectrometry based quantitative proteomics**. 
 
 We will begin with a brief overview of the proteomics workflow and introduction to the dataset used in this tutorial. 
@@ -45,7 +45,7 @@ This introductory workshop assumes some knowledge of R and basic biology. No pro
 
 ## REQUIRED KNOWLEDGE
 
-- This workshop assumes participants have a basic understanding of R or have previously attended 
+- This workshop assumes participants have a **basic understanding of R** or have previously attended 
 an Intro to R workshop. Please review introductory materials [here](https://melbournebioinformatics.github.io/intro-to-r/).
 
 ::::
@@ -54,7 +54,7 @@ an Intro to R workshop. Please review introductory materials [here](https://melb
 
 ## REQUIRED SOFTWARE
 
-Attendees are required to bring their own laptop computers. Please ensure you have installed:
+Attendees are required to bring their own laptop computers. **Please ensure you have installed:**
 
 - [Chrome](https://www.google.com/chrome/) or [FireFox](https://www.mozilla.org/en-US/)
 - [R](https://cran.ms.unimelb.edu.au/) (Download and install the latest version of R using the UniMelb mirror)
@@ -74,6 +74,7 @@ cran_packages <- c(
   "limpa",           # Proteomics data processing and DE analysis
   "dplyr",           # Data manipulation
   "readxl",          # Read Excel files
+  "stringr",         # Manipulate strings
   "curl",            # Download files from URLs
   "pheatmap",        # Heatmap visualization
   "EnhancedVolcano", # Volcano plots
@@ -119,18 +120,14 @@ for (pkg in bioc_packages) {
 :::: checklist
 ## REQUIRED DATA
 
-In this workshop, we will be using [this dataset](https://www.ebi.ac.uk/pride/archive/projects/PXD047585) downloaded from PRIDE, 
+**Please click the links below to download the data required for this workshop:**
+
+  - [Parquet file](episodes/data/MBIntroToProteomics.parquet)
+  - [Sample Annotation file](episodes/data/SampleAnnotation.xlsx)
+
+We have pre-processed a subset of [this dataset](https://www.ebi.ac.uk/pride/archive/projects/PXD047585) downloaded from PRIDE, 
 a public repository for mass spectrometry-based proteomics data.
 
 You can read the associated paper [here](https://dx.doi.org/10.3390/BIOMEDICINES12020333).
 
-You do not need to download any data prior to the workshop.
-
 ::::
-
-
-<!--
-FIXME: place any data you want learners to use in `episodes/data` and then use
-       a relative link ( [data zip file](data/lesson-data.zip) ) to provide a
-       link to it, replacing the example.com link.
--->
