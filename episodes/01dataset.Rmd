@@ -114,9 +114,9 @@ For example, `.raw` may indicate vendor instrument output and `.mzML` indicates 
 
 For more information about different proteomics file formats, check out:
 
-    - [PRIDE File Formats Documentation](https://www.ebi.ac.uk/pride/markdownpage/pridefileformats)
+- [PRIDE File Formats Documentation](https://www.ebi.ac.uk/pride/markdownpage/pridefileformats)
 
-    - [Paper on mass spec file formats (PMC3518119)](https://pmc.ncbi.nlm.nih.gov/articles/PMC3518119/)
+- [Paper on mass spec file formats (PMC3518119)](https://pmc.ncbi.nlm.nih.gov/articles/PMC3518119/)
 
 :::
 
