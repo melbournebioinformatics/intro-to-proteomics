@@ -1,7 +1,7 @@
 ---
 title: 'Data cleaning with R'
-teaching: 10
-exercises: 2
+teaching: 50
+exercises: 10
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
@@ -13,6 +13,14 @@ exercises: 2
 ::::::::::::::::::::::::::::::::::::: objectives
 
 - Understand the steps required to clean proteomics data and generate analysis-ready protein values using `limpa`.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: instructor
+
+During a live workshop, ask participants to open a new R script to run the code themselves.
+
+Can present the content as an interactive tutorial, or ask participants to work through the lesson independently with pauses to discuss.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -29,9 +37,9 @@ In this tutorial, we are using the `limpa` package to load and clean our data. T
 
 For background information, see the original publications:
 
-    - Li, M., Cobbold, S. A., & Smyth, G. K. (2025). Quantification and differential analysis of mass spectrometry proteomics data with probabilistic recovery of information from missing values. bioRxiv, 2025.2004.2028.651125. https://doi.org/10.1101/2025.04.28.651125 
+*Li, M., Cobbold, S. A., & Smyth, G. K. (2025). Quantification and differential analysis of mass spectrometry proteomics data with probabilistic recovery of information from missing values. bioRxiv, 2025.2004.2028.651125. https://doi.org/10.1101/2025.04.28.651125 *
 
-    - Li, M., & Smyth, G. K. (2023). Neither random nor censored: estimating intensity-dependent probabilities for missing values in label-free proteomics. Bioinformatics, 39(5). https://doi.org/10.1093/bioinformatics/btad200 
+*Li, M., & Smyth, G. K. (2023). Neither random nor censored: estimating intensity-dependent probabilities for missing values in label-free proteomics. Bioinformatics, 39(5). https://doi.org/10.1093/bioinformatics/btad200 *
 
 You can also find further information in the [vignette](https://bioconductor.org/packages/release/bioc/vignettes/limpa/inst/doc/limpa.html) or [reference manual](https://bioconductor.org/packages/release/bioc/manuals/limpa/man/limpa.pdf) accessed via the [Bioconductor page](https://bioconductor.org/packages/release/bioc/html/limpa.html).
 
@@ -57,7 +65,9 @@ library(stringr)
 
 ### Load DIA-NN output
 
-**Load the peptide-level data** processed by DIA-NN (`.parquet` file), **filtering observations** by quality metrics as recommended in the [limpa vignette](https://bioconductor.org/packages/release/bioc/vignettes/limpa/inst/doc/limpa.html). The peptide values will automatically be **converted to log2** upon import.
+**Load the peptide-level data** processed by DIA-NN (`.parquet` file), **filtering observations** by quality metrics as recommended in the [limpa vignette](https://bioconductor.org/packages/release/bioc/vignettes/limpa/inst/doc/limpa.html). 
+
+The peptide values will automatically be **converted to log2** upon import.
 
 ```{r}
 y.peptide <- readDIANN(file='data/MBIntroToProteomics.parquet',format="parquet",
@@ -172,7 +182,7 @@ If you are analysing data that has been processed without a contaminant FASTA, y
 
 For more information, see the original publication:
 
-Frankenfield, A. M., Ni, J., Ahmed, M., & Hao, L. (2022). Protein Contaminants Matter: Building Universal Protein Contaminant Libraries for DDA and DIA Proteomics. Journal of proteome research, 21(9), 2104–2113. https://doi.org/10.1021/acs.jproteome.2c00145
+*Frankenfield, A. M., Ni, J., Ahmed, M., & Hao, L. (2022). Protein Contaminants Matter: Building Universal Protein Contaminant Libraries for DDA and DIA Proteomics. Journal of proteome research, 21(9), 2104–2113. https://doi.org/10.1021/acs.jproteome.2c00145*
 
 :::::
 
@@ -321,7 +331,7 @@ If you are concerned about batch effects in your data, University of Melbourne s
 
 Normalisation is another key element of the proteomics data cleaning workflow. Normalisation techniques aim to remove non-biological variation in the data, for example, variation due to sample loading or batch effects.
 
-The default RT-dependent normalisation applied during DIA-NN processing is quite effective and often sufficient for DIA data; however, each experimental environment and techniques will have a different optimal approach. You may wish to apply an additional method of normalisation to your data.
+Log transformation (which was automatically applied when we imported our peptide data) helps to normalise intensity values. The default RT-dependent normalisation applied during DIA-NN processing is also quite effective and often sufficient for DIA data; however, each experimental environment and techniques will have a different optimal approach. You may wish to apply an additional method of normalisation to your data.
 
 To learn more about normalisation, keep an eye on the [Melbourne Bioinformatics Eventbrite page](https://www.eventbrite.com.au/o/melbourne-bioinformatics-13058846490) for a normalisation workshop coming in 2026.
 
@@ -330,22 +340,23 @@ To learn more about normalisation, keep an eye on the [Melbourne Bioinformatics 
 
 To learn more about different normalisation techniques for proteomics data, we recommend the following papers:
 
-Peng, H., Wang, H., Kong, W., Li, J., & Goh, W. W. B. (2024). Optimizing differential expression analysis for proteomics data via high-performing rules and ensemble inference. Nature communications, 15(1), 3922. https://doi.org/10.1038/s41467-024-47899-w
+*Peng, H., Wang, H., Kong, W., Li, J., & Goh, W. W. B. (2024). Optimizing differential expression analysis for proteomics data via high-performing rules and ensemble inference. Nature communications, 15(1), 3922. https://doi.org/10.1038/s41467-024-47899-w*
 
-Tseng, C. Y., Salguero, J. A., Breidenbach, J. D., Solomon, E., Sanders, C. K., Harvey, T., Thornhill, M. G., Palmisano, S. J., Sasiene, Z. J., Blackwell, B. R., McBride, E. M., Luchini, K. A., LeBrun, E. S., Alvarez, M., Mach, P. M., Rivera, E. S., & Glaros, T. G. (2025). Evaluation of normalization strategies for mass spectrometry-based multi-omics datasets. Metabolomics : Official journal of the Metabolomic Society, 21(4), 98. https://doi.org/10.1007/s11306-025-02297-1
+*Tseng, C. Y., Salguero, J. A., Breidenbach, J. D., Solomon, E., Sanders, C. K., Harvey, T., Thornhill, M. G., Palmisano, S. J., Sasiene, Z. J., Blackwell, B. R., McBride, E. M., Luchini, K. A., LeBrun, E. S., Alvarez, M., Mach, P. M., Rivera, E. S., & Glaros, T. G. (2025). Evaluation of normalization strategies for mass spectrometry-based multi-omics datasets. Metabolomics : Official journal of the Metabolomic Society, 21(4), 98. https://doi.org/10.1007/s11306-025-02297-1*
 
-Välikangas, T., Suomi, T., & Elo, L. L. (2018). A systematic evaluation of normalization methods in quantitative label-free proteomics. Briefings in bioinformatics, 19(1), 1–11. https://doi.org/10.1093/bib/bbw095
+*Välikangas, T., Suomi, T., & Elo, L. L. (2018). A systematic evaluation of normalization methods in quantitative label-free proteomics. Briefings in bioinformatics, 19(1), 1–11. https://doi.org/10.1093/bib/bbw095*
 
 :::
 
 
 Good work! We now have a clean dataset ready for analysis.
 
+<br>
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Key elements of the proteomics data cleaning workflow include quality filtering, removing contaminants, protein quantification, managing batch effects, and normalisation.
-- We can use the *limpa* package in R to clean our peptide data and generate a complete, analysis-ready protein matrix with corresponding standard error values.
+- Key elements of the proteomics data cleaning workflow include: quality filtering, removing contaminants, protein quantification, managing batch effects, and normalisation.
+- We can use the `limpa` package in R to clean our peptide data and generate a complete, analysis-ready protein matrix with corresponding standard error values.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 

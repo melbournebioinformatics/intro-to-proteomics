@@ -31,7 +31,7 @@ keywords: 'proteomics, mass spectrometry, DIA, DIA-NN, limpa, differential expre
 
 # Life cycle stage of the lesson
 # possible values: pre-alpha, alpha, beta, stable
-life_cycle: 'beta'
+life_cycle: 'stable'
 
 # License of the lesson materials (recommended CC-BY 4.0)
 license: 'CC-BY 4.0'
@@ -52,8 +52,7 @@ contact: 'bioinformatics-training@unimelb.edu.au'
 # include all pages in the folder.
 #
 # Order of episodes in your lesson
-episodes: # UPDATE
-# - introduction.Rmd
+episodes:
 - 01dataset.Rmd
 - 02diann.Rmd
 - 03datacleaning.Rmd
@@ -68,7 +67,7 @@ learners:
 
 # Information for Instructors
 instructors:
-# - instructor-notes.md
+- instructor-notes.md
 
 # Learner Profiles
 profiles:
