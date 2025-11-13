@@ -17,12 +17,6 @@ exercises: 5
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-::::::::::::::::::::::::::::::::::::: instructor
-
-During a live workshop, skip this page. Use the introductory ppt slide to explain where the data comes from.
-
-::::::::::::::::::::::::::::::::::::::::::::::::
-
 ## The data
 
 The data we are using in this tutorial comes from a study done exploring a non-invasive diagnostic approach for Inflammatory Bowel Disease (IBD) using mass spectrometry and machine learning to analyse the stool proteome. Traditional diagnostic methods like colonoscopies are invasive, prompting the need for alternatives. The researchers collected 123 stool samples and identified 48 differentially expressed proteins, narrowing them down to 7 key proteins using feature selection. A Support Vector Machine (SVM) model was developed, achieving 96% sensitivity and 76% specificity in distinguishing active IBD patients from symptomatic non-IBD patients. This approach demonstrates the potential for accurate, non-invasive IBD diagnosis, improving patient management and reducing the need for invasive procedures.

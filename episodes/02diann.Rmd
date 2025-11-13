@@ -17,14 +17,6 @@ exercises: 4
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-::::::::::::::::::::::::::::::::::::: instructor
-
-During a live workshop, present this content lecture-style for participants to follow along.
-
-Open an instance of DIA-NN on your device for demonstration purposes.
-
-::::::::::::::::::::::::::::::::::::::::::::::::
-
 ## Processing proteomics data
 
 There are many software options for processing mass spectrometry-based proteomics output. These software match mass spectra against an empirical or predicted spectral library to **identify peptides** and **infer the protein** to which they belong.

@@ -14,12 +14,6 @@ exercises: 3
 -   Identify enriched biological processes and pathways (GO and KEGG)
 :::
 
-::::::::::::::::::::::::::::::::::::: instructor
-
-During a live workshop, participants should work through the lesson content independently, with pauses for discussion after each component.
-
-::::::::::::::::::::::::::::::::::::::::::::::::
-
 ```{r, results="hide", message=FALSE, warning = FALSE, echo=FALSE}
 library(limpa)
 library(readxl)

@@ -67,7 +67,7 @@ learners:
 
 # Information for Instructors
 instructors:
-#- instructor-notes.md
+- instructor-notes.md
 
 # Learner Profiles
 profiles:

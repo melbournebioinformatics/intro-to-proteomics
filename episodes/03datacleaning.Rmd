@@ -16,14 +16,6 @@ exercises: 10
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-::::::::::::::::::::::::::::::::::::: instructor
-
-During a live workshop, ask participants to open a new R script to run the code themselves.
-
-Can present the content as an interactive tutorial, or ask participants to work through the lesson independently with pauses to discuss.
-
-::::::::::::::::::::::::::::::::::::::::::::::::
-
 ## Load processed data and sample annotation 
 
 After processing raw proteomics data, further cleaning and analysis can be conducted using **R**, **Python**, or by importing data to other platforms like **Perseus** or **Skyline**.
