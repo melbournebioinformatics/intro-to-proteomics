@@ -18,17 +18,7 @@
   <div class="container-fluid top-nav-container">
     <div class="col-md-8">
       <div class="large-logo">
-        <img id="uom-logo" alt="This workshop will introduce participants to proteomic data processing, cleaning, and analysis, with a focus on label-free, bottom-up, DIA, mass-spectrometry based quantitative proteomics." src="../assets/images/uom-logo.svg"><span class="badge text-bg-info">
-          <abbr title="This lesson is in the beta phase, which means that it is ready for teaching by instructors outside of the original author team.">
-            <a href="https://docs.carpentries.org/resources/curriculum/lesson-life-cycle.html" class="external-link alert-link">
-              <i aria-hidden="true" class="icon" data-feather="alert-circle" style="border-radius: 5px"></i>
-              Beta
-            </a>
-            <span class="visually-hidden">This lesson is in the beta phase, which means that it is ready for teaching by instructors outside of the original author team.</span>
-          </abbr>
-        </span>
-
-      </div>
+        <img id="uom-logo" alt="This workshop will introduce participants to proteomic data processing, cleaning, and analysis, with a focus on label-free, bottom-up, DIA, mass-spectrometry based quantitative proteomics." src="../assets/images/uom-logo.svg"></div>
     </div>
     <div class="selector-container">
       <div id="theme-selector">
@@ -456,7 +446,7 @@ match-between-runs</strong>.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -774,7 +764,7 @@ missing values in a rowwise manner?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p><code>dpcImpute()</code></p>
 </div>
@@ -862,7 +852,7 @@ relationship between these quality metrics?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>Proteins with smaller <code>NPeptides</code> and <code>PropObs</code>
 values, and smaller <code>n.observations</code> for individual samples,
@@ -904,26 +894,30 @@ up.</p>
 <span></span>
 <span><span class="va">Batch</span> <span class="op">&lt;-</span> <span class="fu">factor</span><span class="op">(</span><span class="va">y.peptide</span><span class="op">$</span><span class="va">targets</span><span class="op">$</span><span class="va">Batch</span><span class="op">)</span></span>
 <span><span class="va">Batch.color</span> <span class="op">&lt;-</span> <span class="va">Batch</span></span>
-<span><span class="fu">levels</span><span class="op">(</span><span class="va">Batch.color</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">hcl.colors</span><span class="op">(</span><span class="fu">nlevels</span><span class="op">(</span><span class="va">Batch</span><span class="op">)</span>, palette <span class="op">=</span> <span class="st">"Set 2"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Class visualisation</span></span>
+<span><span class="fu">levels</span><span class="op">(</span><span class="va">Batch.color</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">hcl.colors</span><span class="op">(</span><span class="fu">nlevels</span><span class="op">(</span><span class="va">Batch</span><span class="op">)</span>, palette <span class="op">=</span> <span class="st">"Set 2"</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb29">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Class visualisation</span></span>
 <span><span class="fu">plotMDSUsingSEs</span><span class="op">(</span><span class="va">y.protein</span>, pch<span class="op">=</span><span class="fl">16</span>, col<span class="op">=</span><span class="fu">as.character</span><span class="op">(</span><span class="va">Class.color</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="../fig/03datacleaning-rendered-unnamed-chunk-15-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb29">
+<figure><img src="../fig/03datacleaning-rendered-unnamed-chunk-16-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb30">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Batch visualisation</span></span>
 <span><span class="fu">plotMDSUsingSEs</span><span class="op">(</span><span class="va">y.protein</span>, pch<span class="op">=</span><span class="fl">16</span>, col<span class="op">=</span><span class="fu">as.character</span><span class="op">(</span><span class="va">Batch.color</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="../fig/03datacleaning-rendered-unnamed-chunk-15-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb30">
+<figure><img src="../fig/03datacleaning-rendered-unnamed-chunk-16-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb31">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Class (labels) and batch (colors) visualisation</span></span>
 <span><span class="fu">plotMDSUsingSEs</span><span class="op">(</span><span class="va">y.protein</span>, labels<span class="op">=</span><span class="va">Class</span>, col<span class="op">=</span><span class="fu">as.character</span><span class="op">(</span><span class="va">Batch.color</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="../fig/03datacleaning-rendered-unnamed-chunk-15-3.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We can already see a distinction between the aCD and Ctrl groups,
+<figure><img src="../fig/03datacleaning-rendered-unnamed-chunk-16-3.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We can already see a distinction between the aCD and Ctrl groups,
 which will be explored further in the next lesson.</p>
 <p>It also looks like there are some differences between the batches.
 <strong>We should add batch as a covariate to our analyses in the next
@@ -968,7 +962,7 @@ in 2026.</p>
 <button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
   <h3 class="accordion-header" id="headingSpoiler1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div> More about normalisation </h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
 <div class="accordion-body">
 <p>To learn more about different normalisation techniques for proteomics
 data, we recommend the following papers:</p>
