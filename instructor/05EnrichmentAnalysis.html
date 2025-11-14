@@ -119,11 +119,11 @@
   Introduction to Proteomics
 </div>
 
-<aside class="col-md-12 lesson-progress"><div style="width: 82%" class="percentage">
-    82%
+<aside class="col-md-12 lesson-progress"><div style="width: 79%" class="percentage">
+    79%
   </div>
   <div class="progress uom">
-    <div class="progress-bar uom" role="progressbar" style="width: 82%" aria-valuenow="82" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar uom" role="progressbar" style="width: 79%" aria-valuenow="79" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
     </div>
   </div>
 </aside><div class="container">
@@ -234,7 +234,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="04DEA.html">4. Differential expression analysis (DEA)</a>
+        <a href="04DEA.html">4. Differential expression analysis</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -253,7 +253,8 @@
 
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
-        <ul><li><a href="#network-and-enrichment-analysis">Network and Enrichment Analysis</a></li>
+        <ul><li><a href="#string-proteinprotein-interaction-network-analysis">STRING protein–protein interaction network analysis</a></li>
+<li><a href="#functional-enrichment-analysis-go-and-kegg">Functional enrichment analysis (GO and KEGG)</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
 
@@ -318,13 +319,13 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Network and Enrichment Analysis</h1>
-        <p>Last updated on 2025-11-12 |
+        <p>Last updated on 2025-11-14 |
 
         <a href="https://melbournebioinformatics.github.io/intro-to-proteomics/edit/main/episodes/05EnrichmentAnalysis.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
 
 
-        <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
+        <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 45 minutes</p>
 
         <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
@@ -339,8 +340,8 @@
 <div class="card-body">
 <div class="inner">
 <h3 class="card-title">Questions</h3>
-<ul><li>How can DE results be used to identify biologically meaningful
-patterns?<br></li>
+<ul><li>How can DEA results be used to identify biologically meaningful
+patterns?</li>
 <li>How can we visualise and interpret protein–protein interaction (PPI)
 networks and pathway enrichment results?</li>
 </ul></div>
@@ -350,35 +351,35 @@ networks and pathway enrichment results?</li>
 <div class="card-body">
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
-<ul><li>To visualise significant proteins using network analysis
-(STRING)<br></li>
-<li>To identify enriched biological processes and pathways (GO and
+<ul><li>Visualise significant proteins using network analysis (STRING)</li>
+<li>Identify enriched biological processes and pathways (GO and
 KEGG)</li>
 </ul></div>
 </div>
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="network-and-enrichment-analysis">Network and Enrichment Analysis<a class="anchor" aria-label="anchor" href="#network-and-enrichment-analysis"></a></h2>
-<hr class="half-width"><p>Now that we have a list of differentially expressed proteins, we can
-explore how these proteins interact with each other and what biological
-functions or pathways they are involved in.</p>
+<p>Now that we have a list of differentially expressed (DE) proteins, we
+can explore how these proteins interact with each other and what
+biological functions or pathways they are involved in.</p>
 <p>This step helps translate statistical significance into biological
 meaning by integrating our results with known protein–protein
-interactions (PPI) and functional annotation databases.</p>
-<div class="section level3">
-<h3 id="string-proteinprotein-interaction-network">STRING Protein–Protein Interaction Network<a class="anchor" aria-label="anchor" href="#string-proteinprotein-interaction-network"></a></h3>
-<p>The STRING database integrates known and predicted protein–protein
-interactions from multiple sources (e.g., experimental data, text
-mining, prediction methods, and curated databases).</p>
-<p>We can visualise DE proteins within the context of their interaction
-network to identify clusters or modules potentially corresponding to
-biological pathways.</p>
+interactions (PPIs) and functional annotation databases.</p>
+<section><h2 class="section-heading" id="string-proteinprotein-interaction-network-analysis">STRING protein–protein interaction network analysis<a class="anchor" aria-label="anchor" href="#string-proteinprotein-interaction-network-analysis"></a></h2>
+<hr class="half-width"><p>The <a href="https://string-db.org/" class="external-link">STRING</a> database integrates
+known and predicted PPIs from multiple sources (e.g. experimental data,
+text mining, prediction methods, and curated databases).</p>
+<p>We can visualise DE proteins within the context of their
+<strong>interaction network</strong> to identify clusters or modules
+potentially corresponding to biological pathways.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">string_db</span> <span class="op">&lt;-</span> <span class="va">STRINGdb</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>version <span class="op">=</span> <span class="st">"11.5"</span>, species <span class="op">=</span> <span class="fl">9606</span>, score_threshold <span class="op">=</span> <span class="fl">400</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Create an instance of the STRINGdb reference class for humans (species 9606)</span></span>
+<span><span class="va">string_db</span> <span class="op">&lt;-</span> <span class="va">STRINGdb</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>version <span class="op">=</span> <span class="st">"11.5"</span>, species <span class="op">=</span> <span class="fl">9606</span>, score_threshold <span class="op">=</span> <span class="fl">400</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Map STRING identifiers to gene identifiers in our DEA results dataframe</span></span>
 <span><span class="va">mapped</span> <span class="op">&lt;-</span> <span class="va">string_db</span><span class="op">$</span><span class="fu">map</span><span class="op">(</span><span class="va">results</span>, <span class="st">"Protein.Names"</span>, removeUnmappedRows <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Only map the proteins of significance</span></span>
@@ -397,9 +398,9 @@ an RData that contains the <code>string_db</code> and
 <span class="callout-header">Discussion</span>
 <div class="callout-inner">
 <div class="callout-content">
-<p>How many clusters are there? How many of these interactions are
-predicted versus experimentally validated? (See image below for
-legend)</p>
+<p>How many clusters are there?</p>
+<p>How many of these interactions are predicted versus experimentally
+validated? (See image below for legend)</p>
 </div>
 </div>
 </div>
@@ -407,11 +408,19 @@ legend)</p>
 by going to <a href="https://string-db.org/" class="external-link">https://string-db.org/</a>
 and further exploring your proteins of interest.</p>
 <figure><img src="../fig/05enrichmentanalysis_stringdb.png" alt="Network plot for PRTN3 from string-db.org" class="figure mx-auto d-block"><div class="figcaption">Network plot for PRTN3 from string-db.org</div>
-</figure><p>There are many available ways of exploring your data using the STRING
-database that can’t be covered in one tutorial but you can learn more by
-reading the <a href="https://www.bioconductor.org/packages/release/bioc/vignettes/STRINGdb/inst/doc/STRINGdb.pdf" class="external-link">vignette</a>
-and inspect available functions within the <code>STRINGdb</code> package
-by running:</p>
+</figure><div id="more-data-exploration-using-stringdb" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="more-data-exploration-using-stringdb" class="callout-inner">
+<h3 class="callout-title">More data exploration using STRINGdb</h3>
+<div class="callout-content">
+<p>There are many ways of exploring your data using the STRING database
+- too many to cover in one tutorial!</p>
+<p>You can learn more by reading the <a href="https://www.bioconductor.org/packages/release/bioc/vignettes/STRINGdb/inst/doc/STRINGdb.pdf" class="external-link">vignette</a>
+or inspecting available functions within the <code>STRINGdb</code>
+package by running:</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -449,22 +458,39 @@ by running:</p>
 [51] "show#envRefClass"                    "trace"
 [53] "untrace"                             "usingMethods"                       </code></pre>
 </div>
-<p>Read more about STRING:</p>
-<ul><li>Szklarczyk, Damian et al. “The STRING database in 2025: protein
-networks with directionality of regulation.” Nucleic acids research
-vol. 53,D1 (2025): D730-D737. <a href="../doi:10.1093/nar/gkae1113" class="uri">doi:10.1093/nar/gkae1113</a>
-</li>
-</ul></div>
-<div class="section level3">
-<h3 id="functional-enrichment-go-and-kegg">Functional Enrichment (GO and KEGG)<a class="anchor" aria-label="anchor" href="#functional-enrichment-go-and-kegg"></a></h3>
-<p>Using the identified significant DE proteins, we can perform
-functional enrichment analysis to determine whether certain biological
+</div>
+</div>
+</div>
+<div id="accordionSpoiler1" class="accordion spoiler-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
+  <h3 class="accordion-header" id="headingSpoiler1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div> Read more about STRING </h3>
+</button>
+<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
+<div class="accordion-body">
+<p><em>Szklarczyk, D., Nastou, K., Koutrouli, M., Kirsch, R., Mehryary,
+F., Hachilif, R., Hu, D., Peluso, M. E., Huang, Q., Fang, T., Doncheva,
+N. T., Pyysalo, S., Bork, P., Jensen, L. J., &amp; von Mering, C.
+(2025). The STRING database in 2025: protein networks with
+directionality of regulation. Nucleic acids research, 53(D1), D730–D737.
+<a href="https://doi.org/10.1093/nar/gkae1113" class="external-link uri">https://doi.org/10.1093/nar/gkae1113</a></em></p>
+</div>
+</div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="functional-enrichment-analysis-go-and-kegg">Functional enrichment analysis (GO and KEGG)<a class="anchor" aria-label="anchor" href="#functional-enrichment-analysis-go-and-kegg"></a></h2>
+<hr class="half-width"><p>Using the significant DE proteins, we can perform <strong>functional
+enrichment analysis</strong> to determine whether certain biological
 processes (BP), cellular components (CC), or molecular functions (MF)
 are over-represented.</p>
 <p>Two common types of enrichment exploration are:</p>
-<ul><li>Gene Ontology (GO): describes BPs, CCs, amd MFs</li>
-<li>KEGG pathways: curated molecular interactions</li>
-</ul><p>First, let’s look at enriched GO pathways:</p>
+<ul><li>
+<strong>Gene Ontology (GO)</strong>: describes BPs, CCs, amd
+MFs</li>
+<li>
+<strong>KEGG pathways</strong>: curated molecular interactions</li>
+</ul><div class="section level3">
+<h3 id="go-enrichment-analysis">GO enrichment analysis<a class="anchor" aria-label="anchor" href="#go-enrichment-analysis"></a></h3>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -504,7 +530,9 @@ are over-represented.</p>
 <span><span class="co"># Show plot</span></span>
 <span><span class="fu">dotplot</span><span class="op">(</span><span class="va">ego</span>, showCategory <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="../fig/05EnrichmentAnalysis-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Now, let’s do a similar process for looking at KEGG pathways:</p>
+<figure><img src="../fig/05EnrichmentAnalysis-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></div>
+<div class="section level3">
+<h3 id="kegg-pathway-enrichment-analysis">KEGG pathway enrichment analysis<a class="anchor" aria-label="anchor" href="#kegg-pathway-enrichment-analysis"></a></h3>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -548,11 +576,11 @@ are over-represented.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>While there are many similar pathways, the exact pathways are not
 identical. This is likely due to the fact we are using a subset of the
-larger dataset.</p>
+larger dataset in this tutorial.</p>
 </div>
 </div>
 </div>
@@ -564,12 +592,13 @@ larger dataset.</p>
 <span class="callout-header">Key Points</span>
 <div class="callout-inner">
 <div class="callout-content">
-<ul><li>DE analysis identifies statistically significant changes in protein
-abundance between conditions, but does not necessarily tell us the
-biological significance of such identified proteins.</li>
-<li>Network analysis (STRING) reveals potential physical or functional
+<ul><li>Differential expression analysis identifies statistically
+significant changes in protein abundance between conditions, but does
+not necessarily tell us the biological significance of such identified
+proteins.</li>
+<li>Network analysis (STRING) can reveal physical or functional
 interactions among DE proteins.</li>
-<li>Enrichment analysis (GO/KEGG) links those proteins to known
+<li>Enrichment analysis (GO/KEGG) can link those proteins to known
 biological processes or pathways.</li>
 <li>Using multiple approaches can help you interpret proteomics data to
 measure reliability and consistency of results.</li>
@@ -641,8 +670,8 @@ any links that you are not going to use.
   "url": "melbournebioinformatics.github.io/uom-varnish/instructor/05EnrichmentAnalysis.html",
   "identifier": "melbournebioinformatics.github.io/uom-varnish/instructor/05EnrichmentAnalysis.html",
   "dateCreated": "2025-10-30",
-  "dateModified": "2025-11-12",
-  "datePublished": "2025-11-12"
+  "dateModified": "2025-11-14",
+  "datePublished": "2025-11-14"
 }
 
   </script><script>

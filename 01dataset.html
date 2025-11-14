@@ -246,7 +246,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="04DEA.html">4. Differential expression analysis (DEA)</a>
+        <a href="04DEA.html">4. Differential expression analysis</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -319,7 +319,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Exploring the dataset</h1>
-        <p>Last updated on 2025-11-12 |
+        <p>Last updated on 2025-11-14 |
 
         <a href="https://melbournebioinformatics.github.io/intro-to-proteomics/edit/main/episodes/01dataset.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -368,7 +368,8 @@ from symptomatic non-IBD patients. This approach demonstrates the
 potential for accurate, non-invasive IBD diagnosis, improving patient
 management and reducing the need for invasive procedures.</p>
 <p><strong>For the purpose of this tutorial</strong>, we will be using a
-subset of the total data presented in the paper, including:</p>
+<strong>subset</strong> of the total data presented in the paper,
+including:</p>
 <ul><li>
 <p>11 control (Ctrl) samples</p>
 <ul><li>6 from batch one + 5 from batch three</li>
@@ -377,21 +378,35 @@ subset of the total data presented in the paper, including:</p>
 <p>9 active Crohn’s disease (aCD) samples</p>
 <ul><li>5 from batch one + 4 from batch three</li>
 </ul></li>
-</ul><p><strong>Reference</strong> Shajari, E.; Gagné, D.; Malick, M.; Roy,
-P.; Noël, J.-F.; Gagnon, H.; Brunet, M.A.; Delisle, M.; Boisvert, F.-M.;
-Beaulieu, J.-F. Application of SWATH Mass Spectrometry and Machine
-Learning in the Diagnosis of Inflammatory Bowel Disease Based on the
-Stool Proteome. Biomedicines 2024, 12, 333. <a href="https://doi.org/10.3390/biomedicines12020333" class="external-link uri">https://doi.org/10.3390/biomedicines12020333</a>.</p>
-<div id="discussion1" class="callout discussion">
+</ul><p><strong>Reference:</strong></p>
+<p>Shajari, E.; Gagné, D.; Malick, M.; Roy, P.; Noël, J.-F.; Gagnon, H.;
+Brunet, M.A.; Delisle, M.; Boisvert, F.-M.; Beaulieu, J.-F. Application
+of SWATH Mass Spectrometry and Machine Learning in the Diagnosis of
+Inflammatory Bowel Disease Based on the Stool Proteome. Biomedicines
+2024, 12, 333. <a href="https://doi.org/10.3390/biomedicines12020333" class="external-link uri">https://doi.org/10.3390/biomedicines12020333</a></p>
+<div id="challenge1" class="callout challenge">
 <div class="callout-square">
-<i class="callout-icon" data-feather="message-circle"></i>
+<i class="callout-icon" data-feather="zap"></i>
 </div>
-<span class="callout-header">Discussion</span>
+<span class="callout-header">Challenge</span>
 <div class="callout-inner">
 <h3 class="callout-title">Challenge</h3>
 <div class="callout-content">
 <p>Can you see where to find the publicly available data in the
 paper?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div class="accordion-body">
+<p>Publicly available data can be found under the ‘Data Availability
+Statement’ in the paper.</p>
+</div>
 </div>
 </div>
 </div>
@@ -541,15 +556,15 @@ example, <code>.raw</code> may indicate vendor instrument output and
 <div class="accordion-body">
 <p>For more information about different proteomics file formats, check
 out:</p>
-<ul><li><p><a href="https://www.ebi.ac.uk/pride/markdownpage/pridefileformats" class="external-link">PRIDE
-File Formats Documentation</a></p></li>
-<li><p><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3518119/" class="external-link">Paper
-on mass spec file formats (PMC3518119)</a></p></li>
-</ul></div>
+<p><a href="https://www.ebi.ac.uk/pride/markdownpage/pridefileformats" class="external-link">PRIDE
+File Formats Documentation</a></p>
+<p><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3518119/" class="external-link">Paper on
+mass spec file formats (PMC3518119)</a></p>
 </div>
 </div>
 </div>
-<div id="challenge1" class="callout challenge">
+</div>
+<div id="challenge2" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
@@ -559,7 +574,7 @@ on mass spec file formats (PMC3518119)</a></p></li>
 <div class="callout-content">
 <p>Try visiting the dataset page on the PRIDE website and compare:</p>
 <ul><li><p>The number of files listed there versus those returned by
-rpx.</p></li>
+rpx</p></li>
 <li><p>The types of files (e.g., .raw, .mzML, .txt, etc.)</p></li>
 </ul><p>Questions to consider:</p>
 <ul><li><p>Why might the PRIDE web interface and R output differ?</p></li>
@@ -568,12 +583,12 @@ rpx?</p></li>
 </ul></div>
 </div>
 </div>
-<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Programmatic access allows you to automate each step of your
 analysis, making your workflow fully reproducible.</p>
@@ -585,9 +600,10 @@ analysis, making your workflow fully reproducible.</p>
 <div class="section level3">
 <h3 id="downloading-required-files">Downloading required files<a class="anchor" aria-label="anchor" href="#downloading-required-files"></a></h3>
 <p>Good news! We have already downloaded and processed the data for you,
-as described in the next lesson. For future reference, you can use the
-<strong>Curl</strong> package to download files as demonstrated
-below.</p>
+as described in the next lesson. You should have downloaded this from
+the Setup page.</p>
+<p>If you wish to download files from another dataset, you can use the
+<code>curl</code> package as demonstrated below.</p>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -596,9 +612,10 @@ below.</p>
 <span></span>
 <span><span class="fu">curl</span><span class="fu">::</span><span class="fu">curl_download</span><span class="op">(</span>url<span class="op">=</span><span class="st">'https://ftp.pride.ebi.ac.uk/pride/data/archive/2024/02/PXD047585/SampleAnnotation.xlsx'</span>,destfile <span class="op">=</span> <span class="st">'data/SampleAnnotation.xlsx'</span><span class="op">)</span></span></code></pre>
 </div>
+<p>Note:</p>
 <ul><li>
 <p>We retrieved the <code>url</code> in an earlier step using
-<code>pxurl()</code>. Note:</p>
+<code>pxurl()</code>.</p>
 <ul><li>We have replaced <code>ftp://</code> at the start with
 <code>https://</code>
 </li>
@@ -609,16 +626,17 @@ using <code>pxfiles()</code>
 </ul></li>
 <li><p>We set <code>destfile</code> to our desired name and location for
 the downloaded file.</p></li>
-</ul><div id="keypoints1" class="callout keypoints">
+</ul><p><br></p>
+<div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
 </div>
 <span class="callout-header">Key Points</span>
 <div class="callout-inner">
 <div class="callout-content">
-<ul><li>The dataset used in this tutorial includes stool samples used to
-investigate non-invasive diagnostic methods for Inflammatory Bowel
-Disease.</li>
+<ul><li>The dataset used in this tutorial includes stool samples from a
+study investigating non-invasive diagnostic methods for Inflammatory
+Bowel Disease.</li>
 <li>We can use the <code>rpx</code> package to download and explore data
 from PRIDE or the ProteomeXchange Consortium without leaving R.</li>
 </ul></div>
@@ -689,8 +707,8 @@ any links that you are not going to use.
   "url": "melbournebioinformatics.github.io/uom-varnish/01dataset.html",
   "identifier": "melbournebioinformatics.github.io/uom-varnish/01dataset.html",
   "dateCreated": "2025-10-30",
-  "dateModified": "2025-11-12",
-  "datePublished": "2025-11-12"
+  "dateModified": "2025-11-14",
+  "datePublished": "2025-11-14"
 }
 
   </script><script>

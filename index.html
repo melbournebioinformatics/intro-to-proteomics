@@ -208,7 +208,7 @@
 
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
-        <ul><li><a href="#workshop-overview">Workshop overview</a></li>
+        <ul><li><a href="#tutorial-overview">Tutorial overview</a></li>
 <li><a href="#prior-to-the-workshop">Prior to the workshop</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
@@ -246,7 +246,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="04DEA.html">4. Differential expression analysis (DEA)</a>
+        <a href="04DEA.html">4. Differential expression analysis</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -320,31 +320,32 @@ any links that you are not going to use.
  -->
 
 
-      <section id="setup"><section><h2 class="section-heading" id="workshop-overview">Workshop overview<a class="anchor" aria-label="anchor" href="#workshop-overview"></a></h2>
-<hr class="half-width"><p>This workshop will introduce participants to <strong>proteomic data
+      <section id="setup"><section><h2 class="section-heading" id="tutorial-overview">Tutorial overview<a class="anchor" aria-label="anchor" href="#tutorial-overview"></a></h2>
+<hr class="half-width"><p>This tutorial will introduce participants to <strong>proteomic data
 processing, cleaning, and analysis</strong>, with a focus on
-<strong>label-free, bottom-up, DIA, mass-spectrometry based quantitative
+<strong>label-free, bottom-up, DIA, mass spectrometry-based quantitative
 proteomics</strong>.</p>
 <p>We will begin with a brief overview of the proteomics workflow and
 introduction to the dataset used in this tutorial. This will be followed
-by an introduction to DIA-NN as an open-source DIA-focused proteomic
-data processing software. Participants will then be introduced to the
-<em>limpa</em> package for protein quantification and guided through key
-steps for cleaning and converting proteomics data to an analysis-ready
-format, including removing contaminants and quality filtering. Finally,
-we will introduce some basic statistical analyses for interpreting
-proteomics data, including differential expression analysis, enrichment
-analysis, and protein-protein interaction network analysis.</p>
+by an introduction to DIA-NN as a command-line interoperable DIA-focused
+proteomic data processing software. Participants will then be introduced
+to the <code>limpa</code> package for protein quantification and guided
+through key steps for cleaning and converting proteomics data to an
+analysis-ready format, including removing contaminants and quality
+filtering. Finally, we will introduce some basic statistical analyses
+for interpreting proteomics data, including differential expression
+analysis, enrichment analysis, and protein-protein interaction network
+analysis.</p>
 <p><br></p>
-<div id="learning-objectives" class="callout prereq">
+<div id="learning-objectives" class="callout">
 <div class="callout-square">
-<i class="callout-icon" data-feather="check"></i>
+<i class="callout-icon" data-feather="bell"></i>
 </div>
-<span class="callout-header">Prerequisite</span>
+<span class="callout-header">Callout</span>
 <div id="learning-objectives" class="callout-inner">
 <h3 class="callout-title">LEARNING OBJECTIVES</h3>
 <div class="callout-content">
-<p>By the end of this workshop, you will be able to:</p>
+<p>By the end of this tutorial, you will be able to:</p>
 <ul><li>Describe the proteomics workflow and understand the types of
 information that can be acquired from proteomic testing.</li>
 <li>List the steps required to process and clean proteomics data, and
@@ -376,8 +377,8 @@ biology. No proteomics knowledge is assumed.</p>
 <h3 class="callout-title">REQUIRED KNOWLEDGE</h3>
 <div class="callout-content">
 <ul><li>This workshop assumes participants have a <strong>basic
-understanding of R</strong> or have previously attended an Intro to R
-workshop. Please review introductory materials <a href="https://melbournebioinformatics.github.io/intro-to-r/" class="external-link">here</a>.</li>
+understanding of R</strong> or have previously attended an Introduction
+to R workshop. Please review introductory materials <a href="https://melbournebioinformatics.github.io/intro-to-r/" class="external-link">here</a>.</li>
 </ul></div>
 </div>
 </div>
@@ -398,11 +399,10 @@ workshop. Please review introductory materials <a href="https://melbournebioinfo
 <a href="https://cran.ms.unimelb.edu.au/" class="external-link">R</a> (Download and
 install the latest version of R using the UniMelb mirror)</li>
 <li><a href="https://posit.co/download/rstudio-desktop/#download" class="external-link">RStudio</a></li>
-<li>R packages required for this workshop (see below)</li>
-</ul></div>
-</div>
-</div>
-<div class="section level3">
+<li>
+<strong>R packages</strong> required for this workshop (see
+below)</li>
+</ul><div class="section level3">
 <h3 id="installing-required-r-packages">Installing required R packages<a class="anchor" aria-label="anchor" href="#installing-required-r-packages"></a></h3>
 <p>Please copy and run the below code to install the required R packages
 prior to the workshop.</p>
@@ -455,6 +455,10 @@ prior to the workshop.</p>
 <span>  <span class="op">}</span></span>
 <span><span class="op">}</span></span></code></pre>
 </div>
+</div>
+</div>
+</div>
+</div>
 <p><br></p>
 <div id="required-data" class="callout checklist">
 <div class="callout-square">
@@ -475,11 +479,24 @@ spectrometry-based proteomics data.</p>
 </div>
 </div>
 </div>
+<div id="introductory-slides" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<span class="callout-header">Discussion</span>
+<div id="introductory-slides" class="callout-inner">
+<h3 class="callout-title">Introductory slides</h3>
+<div class="callout-content">
+<p>Introductory slides for this workshop can be found <a href="files/MB_IntroToProteomics_IntroPpt_JB.pdf">here</a>.</p>
+<p>If you are attending a live workshop, there is no need to review
+these slides in advance.</p>
+</div>
+</div>
+</div>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
-</div>
 </section></section></main><nav class="bottom-pagination mx-md-4" aria-label="Next Chapter"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link float-end" href="01dataset.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
@@ -531,8 +548,8 @@ any links that you are not going to use.
   "url": "melbournebioinformatics.github.io/uom-varnish/index.html",
   "identifier": "melbournebioinformatics.github.io/uom-varnish/index.html",
   "dateCreated": "2025-10-30",
-  "dateModified": "2025-11-12",
-  "datePublished": "2025-11-12"
+  "dateModified": "2025-11-14",
+  "datePublished": "2025-11-14"
 }
 
   </script><script>

@@ -119,11 +119,11 @@
   Introduction to Proteomics
 </div>
 
-<aside class="col-md-12 lesson-progress"><div style="width: 23%" class="percentage">
-    23%
+<aside class="col-md-12 lesson-progress"><div style="width: 14%" class="percentage">
+    14%
   </div>
   <div class="progress uom">
-    <div class="progress-bar uom" role="progressbar" style="width: 23%" aria-valuenow="23" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar uom" role="progressbar" style="width: 14%" aria-valuenow="14" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
     </div>
   </div>
 </aside><div class="container">
@@ -247,7 +247,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="04DEA.html">4. Differential expression analysis (DEA)</a>
+        <a href="04DEA.html">4. Differential expression analysis</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -320,13 +320,13 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Processing data with DIA-NN</h1>
-        <p>Last updated on 2025-11-12 |
+        <p>Last updated on 2025-11-14 |
 
         <a href="https://melbournebioinformatics.github.io/intro-to-proteomics/edit/main/episodes/02diann.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
 
 
-        <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 15 minutes</p>
+        <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 30 minutes</p>
 
         <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
@@ -389,7 +389,7 @@ library (generating one directly from DIA data).</li>
 <strong>High speed and efficiency:</strong> Suitable for large-scale
 datasets.</li>
 <li>
-<strong>Cross-run normalization:</strong> Ensures consistent
+<strong>Cross-run normalisation:</strong> Ensures consistent
 quantification across experiments.</li>
 <li>
 <strong>Command-line executable:</strong> DIA-NN can be run from a
@@ -421,7 +421,7 @@ procedures described below.</p>
 <strong>generate a predicted spectral library</strong> for your
 experimental organism.</p>
 <ol style="list-style-type: decimal"><li>
-<p><strong>Download a sequence database</strong> from <a href="https://www.uniprot.org/uniprotkb?query=Human&amp;facets=model_organism%3A9606%2Creviewed%3Atrue" class="external-link">UniProt</a>.</p>
+<p><strong>Download a sequence database from UniProt.</strong></p>
 <ol style="list-style-type: lower-alpha"><li><p>Go to <a href="https://www.uniprot.org/uniprotkb?query=" class="external-link uri">https://www.uniprot.org/uniprotkb?query=</a>*</p></li>
 <li><p>Select the <code>relevant organism</code> for your sample and
 <code>Reviewed (Swiss-Prot)</code> status to filter results.</p></li>
@@ -441,15 +441,16 @@ file</p></li>
 <div class="callout-content">
 <p>If you need to search for a variant protein or peptide that differs
 from the standard organism proteome, you can manually edit the protein
-sequences in the UniProt FASTA in a text editor.</p>
+sequences in the UniProt FASTA using a text editor.</p>
 </div>
 </div>
 </div>
-<ol start="2" style="list-style-type: decimal"><li><p><strong>Download a contaminant FASTA file</strong> from <a href="https://github.com/HaoGroup-ProtContLib/Protein-Contaminant-Libraries-for-DDA-and-DIA-Proteomics/tree/main" class="external-link">here</a>.
-For most studies, the Universal Contaminants.fasta will be appropriate,
-but you may prefer to use one of the sample-type specific contaminant
-FASTAs depending on your experiment. <strong><em>More information about
-this resource and contaminants will be discussed in the next
+<ol start="2" style="list-style-type: decimal"><li><p><strong>Download a <a href="https://github.com/HaoGroup-ProtContLib/Protein-Contaminant-Libraries-for-DDA-and-DIA-Proteomics/tree/main" class="external-link">contaminant
+FASTA file</a></strong>. For most experiments, the Universal
+Contaminants.fasta will be appropriate, but you may prefer to use one of
+the sample-type specific contaminant FASTAs depending on your
+experiment. <strong><em>More information about this resource and
+contaminants will be discussed in the next
 lesson.</em></strong></p></li>
 <li><p><strong>Open the DIA-NN</strong> GUI or a command line interface.
 If there are multiple versions of DIA-NN installed on your device,
@@ -485,8 +486,8 @@ default are highlighted in red.</div>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">C:\DIA-NN\2.2.0\diann.exe</span> <span class="kw">`</span> <span class="co"># Replace with file path to DIA-NN on your device</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="ex">--lib</span> <span class="st">""</span> <span class="kw">`</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="ex">--out</span> <span class="st">"C:\path\to\output\report.parquet"</span> <span class="kw">`</span> <span class="co"># Replace with file path to output report.parquet</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="ex">--out-lib</span> <span class="st">"C:\path\to\output\report-lib.parquet"</span> <span class="kw">`</span> <span class="co"># Replace with file path to output report-lib.parquet</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="ex">--out</span> <span class="st">"C:\path\to\output\report.parquet"</span> <span class="kw">`</span> <span class="co"># Replace with desired file path to output report.parquet</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="ex">--out-lib</span> <span class="st">"C:\path\to\output\report-lib.parquet"</span> <span class="kw">`</span> <span class="co"># Replace with desired file path to output report-lib.parquet</span></span>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="ex">--fasta</span> <span class="st">"C:\path\to\UniprotFasta\.fasta"</span> <span class="kw">`</span> <span class="co"># Replace with file path to Uniprot FASTA</span></span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="ex">--fasta</span> <span class="st">"C:\path\to\ContaminantsFasta\.fasta"</span> <span class="kw">`</span> <span class="co"># Replace with file path to contaminants FASTA</span></span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="ex">--threads</span> 30 <span class="kw">`</span> <span class="co"># Replace with the number of threads to use for this analysis</span></span>
@@ -594,7 +595,7 @@ the default are highlighted in red.</div>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">C:\DIA-NN\2.2.0\diann.exe</span> <span class="kw">`</span> <span class="co"># Replace with file path to DIA-NN on your device</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="ex">--dir</span> <span class="st">"C:\path\to\folder\of\raw\files"</span> <span class="kw">`</span> <span class="co"># Replace with file path to folder containing all raw files to be analysed</span></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="ex">--lib</span> <span class="st">"C:\path\to\SpectralLibrary\report-lib.predicted.speclib"</span> <span class="kw">`</span> <span class="co"># Replace with file path to spectral library</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="ex">--out</span> <span class="st">"C:\path\to\output\report.parquet"</span> <span class="kw">`</span> <span class="co"># Replace with file path to output report.parquet</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="ex">--out</span> <span class="st">"C:\path\to\output\report.parquet"</span> <span class="kw">`</span> <span class="co"># Replace with desired file path to output report.parquet</span></span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="ex">--threads</span> 30 <span class="kw">`</span> <span class="co"># Replace with the number of threads to use for this analysis</span></span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="ex">--verbose</span> 1 <span class="kw">`</span></span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="ex">--qvalue</span> 0.01 <span class="kw">`</span></span>
@@ -616,8 +617,9 @@ the default are highlighted in red.</div>
 <p>If you want to run DIA-NN from the command line but are unsure how to
 write the code, you can update your settings in the GUI, click ‘Run’,
 and copy the commands output in the log. That’s how we got the example
-code above! <strong>Can you match each line of code to the corresponding
-setting in the GUI?</strong></p>
+code above!</p>
+<p>Can you match each line of code to the corresponding setting in the
+GUI?</p>
 </div>
 </div>
 </div>
@@ -626,7 +628,7 @@ setting in the GUI?</strong></p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Check the description of available commands in the <a href="https://github.com/vdemichev/DiaNN?tab=readme-ov-file#command-line-reference" class="external-link">DIA-NN
 documentation</a></p>
@@ -662,9 +664,9 @@ quality control measures detected for each sample.</td>
 <h3 class="callout-title">Challenge</h3>
 <div class="callout-content">
 <p>If DIA-NN is run through the command line rather than the GUI, the
-trends.pdf and runs.pdf reports are not automatically generated. Using
-the documentation provided in the <a href="https://github.com/vdemichev/DiaNN?tab=readme-ov-file#changing-default-settings" class="external-link">DIA-NN
-GitHub page</a>, can you work out how to generate this report via the
+<em>trends.pdf</em> and <em>runs.pdf</em> reports are not automatically
+generated. Using the <a href="https://github.com/vdemichev/DiaNN?tab=readme-ov-file" class="external-link">DIA-NN
+documentation</a>, can you work out how to generate this report via the
 command line?</p>
 </div>
 </div>
@@ -674,7 +676,7 @@ command line?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>Run the <code>diann-stats.py</code> Python script provided when you
 download DIA-NN.</p>
@@ -689,14 +691,13 @@ download DIA-NN.</p>
 </div>
 <p>We have now processed our raw files, identifying the peptides present
 in our samples and inferring the proteins to which they belong.</p>
-<div id="learn-more-about-diann" class="callout">
-<div class="callout-square">
-<i class="callout-icon" data-feather="bell"></i>
-</div>
-<span class="callout-header">Callout</span>
-<div id="learn-more-about-diann" class="callout-inner">
-<h3 class="callout-title">Learn more about DIANN</h3>
-<div class="callout-content">
+<div id="accordionSpoiler1" class="accordion spoiler-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
+  <h3 class="accordion-header" id="headingSpoiler1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div> Learn more about DIANN </h3>
+</button>
+<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
+<div class="accordion-body">
 <p>For more background information, see the original publication:<br><em>Demichev, V., et al. (2020). DIA-NN: neural networks and
 interference correction enable deep proteome coverage in high
 throughput. Nature Methods.</em> <a href="https://doi.org/10.1038/s41592-019-0638-x" class="external-link">https://doi.org/10.1038/s41592-019-0638-x</a>.</p>
@@ -707,6 +708,7 @@ their GitHub.</p>
 </div>
 </div>
 </div>
+</div>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -714,10 +716,10 @@ their GitHub.</p>
 <span class="callout-header">Key Points</span>
 <div class="callout-inner">
 <div class="callout-content">
-<ul><li>Raw files from a mass-spectrometry based DIA proteomics experiment
+<ul><li>Raw files from a mass spectrometry-based DIA proteomics experiment
 can be processed using DIA-NN (peptide identification and protein
 inference).</li>
-<li>The DIA-NN workflow has two key steps: generated a predicted
+<li>The DIA-NN workflow has two key steps: generating a predicted
 spectral library, and processing raw files.</li>
 <li>The <a href="https://github.com/vdemichev/DiaNN?tab=readme-ov-file" class="external-link">DIA-NN
 documentation</a> contains detailed information about changing default
@@ -789,8 +791,8 @@ any links that you are not going to use.
   "url": "melbournebioinformatics.github.io/uom-varnish/instructor/02diann.html",
   "identifier": "melbournebioinformatics.github.io/uom-varnish/instructor/02diann.html",
   "dateCreated": "2025-10-30",
-  "dateModified": "2025-11-12",
-  "datePublished": "2025-11-12"
+  "dateModified": "2025-11-14",
+  "datePublished": "2025-11-14"
 }
 
   </script><script>
