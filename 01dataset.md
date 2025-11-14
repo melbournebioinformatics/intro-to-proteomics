@@ -1,6 +1,6 @@
 ---
 title: 'Exploring the dataset'
-teaching: 10
+teaching: 25
 exercises: 5
 ---
 
@@ -21,25 +21,32 @@ exercises: 5
 
 The data we are using in this tutorial comes from a study done exploring a non-invasive diagnostic approach for Inflammatory Bowel Disease (IBD) using mass spectrometry and machine learning to analyse the stool proteome. Traditional diagnostic methods like colonoscopies are invasive, prompting the need for alternatives. The researchers collected 123 stool samples and identified 48 differentially expressed proteins, narrowing them down to 7 key proteins using feature selection. A Support Vector Machine (SVM) model was developed, achieving 96% sensitivity and 76% specificity in distinguishing active IBD patients from symptomatic non-IBD patients. This approach demonstrates the potential for accurate, non-invasive IBD diagnosis, improving patient management and reducing the need for invasive procedures.
 
-**For the purpose of this tutorial**, we will be using a subset of the total data presented in the paper, including:
+**For the purpose of this tutorial**, we will be using a **subset** of the total data presented in the paper, including:
 
 - 11 control (Ctrl) samples
 
     - 6 from batch one + 5 from batch three
     
+
 - 9 active Crohn’s disease (aCD) samples
 
     - 5 from batch one + 4 from batch three
 
-**Reference**
-Shajari, E.; Gagné, D.; Malick, M.; Roy, P.; Noël, J.-F.; Gagnon, H.; Brunet, M.A.; Delisle, M.; Boisvert, F.-M.; Beaulieu, J.-F. Application of SWATH Mass Spectrometry and Machine Learning in the Diagnosis of Inflammatory Bowel Disease Based on the Stool Proteome. Biomedicines 2024, 12, 333. https://doi.org/10.3390/biomedicines12020333.
+**Reference:**
+
+Shajari, E.; Gagné, D.; Malick, M.; Roy, P.; Noël, J.-F.; Gagnon, H.; Brunet, M.A.; Delisle, M.; Boisvert, F.-M.; Beaulieu, J.-F. Application of SWATH Mass Spectrometry and Machine Learning in the Diagnosis of Inflammatory Bowel Disease Based on the Stool Proteome. Biomedicines 2024, 12, 333. https://doi.org/10.3390/biomedicines12020333
 
 
 :::::: challenge
 
 Can you see where to find the publicly available data in the paper?
 
-::::::
+::::::solution
+
+Publicly available data can be found under the 'Data Availability Statement' in the paper.
+
+:::::::
+:::::::::::::::
 
 ## Loading the data
 
@@ -170,9 +177,9 @@ For example, `.raw` may indicate vendor instrument output and `.mzML` indicates 
 
 For more information about different proteomics file formats, check out:
 
-- [PRIDE File Formats Documentation](https://www.ebi.ac.uk/pride/markdownpage/pridefileformats)
+[PRIDE File Formats Documentation](https://www.ebi.ac.uk/pride/markdownpage/pridefileformats)
 
-- [Paper on mass spec file formats (PMC3518119)](https://pmc.ncbi.nlm.nih.gov/articles/PMC3518119/)
+[Paper on mass spec file formats (PMC3518119)](https://pmc.ncbi.nlm.nih.gov/articles/PMC3518119/)
 
 :::
 
@@ -180,7 +187,7 @@ For more information about different proteomics file formats, check out:
 
 Try visiting the dataset page on the PRIDE website and compare:
 
-- The number of files listed there versus those returned by rpx.
+- The number of files listed there versus those returned by rpx
 
 - The types of files (e.g., .raw, .mzML, .txt, etc.)
 
@@ -199,8 +206,9 @@ Programmatic access allows you to automate each step of your analysis, making yo
 
 ### Downloading required files
 
-Good news! We have already downloaded and processed the data for you, as described in the next lesson. 
-For future reference, you can use the **Curl** package to download files as demonstrated below.
+Good news! We have already downloaded and processed the data for you, as described in the next lesson. You should have downloaded this from the Setup page.
+
+If you wish to download files from another dataset, you can use the `curl` package as demonstrated below.
 
 
 ``` r
@@ -209,17 +217,21 @@ library(curl)
 curl::curl_download(url='https://ftp.pride.ebi.ac.uk/pride/data/archive/2024/02/PXD047585/SampleAnnotation.xlsx',destfile = 'data/SampleAnnotation.xlsx')
 ```
 
-- We retrieved the `url` in an earlier step using `pxurl()`. Note:
+Note:
+
+- We retrieved the `url` in an earlier step using `pxurl()`.
     
     - We have replaced `ftp://` at the start with `https://`
     - We have specified the name of the file we wish to download (`SampleAnnotation.xlsx`), from the list we sourced earlier using `pxfiles()`
 
+
 - We set `destfile` to our desired name and location for the downloaded file.
 
+<br>
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- The dataset used in this tutorial includes stool samples used to investigate non-invasive diagnostic methods for Inflammatory Bowel Disease.
+- The dataset used in this tutorial includes stool samples from a study investigating non-invasive diagnostic methods for Inflammatory Bowel Disease.
 - We can use the `rpx` package to download and explore data from PRIDE or the ProteomeXchange Consortium without leaving R.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::

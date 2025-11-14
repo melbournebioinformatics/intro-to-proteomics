@@ -1,40 +1,38 @@
 ---
 title: 'Network and Enrichment Analysis'
-teaching: 10
-exercises: 2
+teaching: 42
+exercises: 3
 ---
 
 ::: questions
--   How can DE results be used to identify biologically meaningful patterns?\
+-   How can DEA results be used to identify biologically meaningful patterns?
 -   How can we visualise and interpret protein–protein interaction (PPI) networks and pathway enrichment results?
 :::
 
 ::: objectives
--   To visualise significant proteins using network analysis (STRING)\
--   To identify enriched biological processes and pathways (GO and KEGG)
+-   Visualise significant proteins using network analysis (STRING)
+-   Identify enriched biological processes and pathways (GO and KEGG)
 :::
 
 
 
+Now that we have a list of differentially expressed (DE) proteins, we can explore how these proteins interact with each other and what biological functions or pathways they are involved in.
+
+This step helps translate statistical significance into biological meaning by integrating our results with known protein–protein interactions (PPIs) and functional annotation databases.
 
 
-## Network and Enrichment Analysis
+## STRING protein–protein interaction network analysis
 
-Now that we have a list of differentially expressed proteins, we can explore how these proteins interact with each other and what biological functions or pathways they are involved in.
+The [STRING](https://string-db.org/) database integrates known and predicted PPIs from multiple sources (e.g. experimental data, text mining, prediction methods, and curated databases).
 
-This step helps translate statistical significance into biological meaning by integrating our results with known protein–protein interactions (PPI) and functional annotation databases.
-
-
-
-### STRING Protein–Protein Interaction Network
-
-The STRING database integrates known and predicted protein–protein interactions from multiple sources (e.g., experimental data, text mining, prediction methods, and curated databases).
-
-We can visualise DE proteins within the context of their interaction network to identify clusters or modules potentially corresponding to biological pathways.
+We can visualise DE proteins within the context of their **interaction network** to identify clusters or modules potentially corresponding to biological pathways.
 
 
 ``` r
+# Create an instance of the STRINGdb reference class for humans (species 9606)
 string_db <- STRINGdb$new(version = "11.5", species = 9606, score_threshold = 400)
+
+# Map STRING identifiers to gene identifiers in our DEA results dataframe
 mapped <- string_db$map(results, "Protein.Names", removeUnmappedRows = TRUE)
 
 # Only map the proteins of significance
@@ -51,7 +49,9 @@ string_db$plot_network(de_proteins_mapped$STRING_id)
 
 :::: discussion
 
-How many clusters are there? How many of these interactions are predicted versus experimentally validated? (See image below for legend)
+How many clusters are there? 
+
+How many of these interactions are predicted versus experimentally validated? (See image below for legend)
 
 ::::
 
@@ -60,8 +60,13 @@ You can explore how these proteins interact in an interactive setting by going t
 
 ![Network plot for PRTN3 from string-db.org](episodes/fig/05enrichmentanalysis_stringdb.png)
 
+:::callout
 
-There are many available ways of exploring your data using the STRING database that can't be covered in one tutorial but you can learn more by reading the [vignette](https://www.bioconductor.org/packages/release/bioc/vignettes/STRINGdb/inst/doc/STRINGdb.pdf) and inspect available functions within the `STRINGdb` package by running:
+# More data exploration using STRINGdb
+
+There are many ways of exploring your data using the STRING database - too many to cover in one tutorial! 
+
+You can learn more by reading the [vignette](https://www.bioconductor.org/packages/release/bioc/vignettes/STRINGdb/inst/doc/STRINGdb.pdf) or inspecting available functions within the `STRINGdb` package by running:
 
 
 ``` r
@@ -98,21 +103,26 @@ STRINGdb$methods()
 [53] "untrace"                             "usingMethods"                       
 ```
 
-Read more about STRING:
+:::
 
-- Szklarczyk, Damian et al. “The STRING database in 2025: protein networks with directionality of regulation.” Nucleic acids research vol. 53,D1 (2025): D730-D737. doi:10.1093/nar/gkae1113
+:::spoiler
+# Read more about STRING
+
+*Szklarczyk, D., Nastou, K., Koutrouli, M., Kirsch, R., Mehryary, F., Hachilif, R., Hu, D., Peluso, M. E., Huang, Q., Fang, T., Doncheva, N. T., Pyysalo, S., Bork, P., Jensen, L. J., & von Mering, C. (2025). The STRING database in 2025: protein networks with directionality of regulation. Nucleic acids research, 53(D1), D730–D737. https://doi.org/10.1093/nar/gkae1113*
+
+:::
 
 
-### Functional Enrichment (GO and KEGG)
+## Functional enrichment analysis (GO and KEGG)
 
-Using the identified significant DE proteins, we can perform functional enrichment analysis to determine whether certain biological processes (BP), cellular components (CC), or molecular functions (MF) are over-represented.
+Using the significant DE proteins, we can perform **functional enrichment analysis** to determine whether certain biological processes (BP), cellular components (CC), or molecular functions (MF) are over-represented.
 
 Two common types of enrichment exploration are:
 
--   Gene Ontology (GO): describes BPs, CCs, amd MFs
--   KEGG pathways: curated molecular interactions
+-   **Gene Ontology (GO)**: describes BPs, CCs, amd MFs
+-   **KEGG pathways**: curated molecular interactions
 
-First, let's look at enriched GO pathways:
+### GO enrichment analysis
 
 
 ``` r
@@ -150,7 +160,7 @@ dotplot(ego, showCategory = 10)
 
 <img src="fig/05EnrichmentAnalysis-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
-Now, let's do a similar process for looking at KEGG pathways:
+### KEGG pathway enrichment analysis
 
 
 ``` r
@@ -179,15 +189,15 @@ dotplot(ekegg, showCategory = 10)
 How do these figures compare to [Figure 4](https://mdpi-res.com/biomedicines/biomedicines-12-00333/article_deploy/html/images/biomedicines-12-00333-g004.png) in the original paper?
 
 ::: solution
-While there are many similar pathways, the exact pathways are not identical. This is likely due to the fact we are using a subset of the larger dataset.
+While there are many similar pathways, the exact pathways are not identical. This is likely due to the fact we are using a subset of the larger dataset in this tutorial.
 :::
 ::::
 
 
 
 ::: keypoints
--   DE analysis identifies statistically significant changes in protein abundance between conditions, but does not necessarily tell us the biological significance of such identified proteins.
--   Network analysis (STRING) reveals potential physical or functional interactions among DE proteins.
--   Enrichment analysis (GO/KEGG) links those proteins to known biological processes or pathways.
+-   Differential expression analysis identifies statistically significant changes in protein abundance between conditions, but does not necessarily tell us the biological significance of such identified proteins.
+-   Network analysis (STRING) can reveal physical or functional interactions among DE proteins.
+-   Enrichment analysis (GO/KEGG) can link those proteins to known biological processes or pathways.
 -   Using multiple approaches can help you interpret proteomics data to measure reliability and consistency of results.
 :::

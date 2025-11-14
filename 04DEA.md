@@ -1,7 +1,7 @@
 ---
-title: 'Differential expression analysis (DEA)'
-teaching: 10
-exercises: 2
+title: 'Differential expression analysis'
+teaching: 40
+exercises: 5
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
@@ -19,8 +19,7 @@ exercises: 2
 
 
 
-
-## Differential Expression Analysis
+## Differential Expression Analysis (DEA)
 
 Now it is time to analyse our data and investigate proteins that are differentially expressed between our two experimental groups (control vs active Crohn’s disease). We will make use of the `limma` package and closely related `limpa` functions specifically designed for proteomics data. 
 
@@ -84,7 +83,10 @@ fit <- dpcDE(y.protein, design, plot = TRUE)
 
 ``` r
 fit <- eBayes(fit)
-topTable(fit, coef = 2)
+
+# Save our DEA results as a dataframe
+results <- topTable(fit, coef = 2, number = Inf)
+head(results, n=10)
 ```
 
 ``` output
@@ -112,7 +114,19 @@ FRIH_HUMAN  11.341144 4.227543 1.897414e-04 5.396242e-03 0.6493737
 RNAS2_HUMAN 11.228811 4.222021 1.927229e-04 5.396242e-03 0.6366061
 ```
 
-We can visualise the log2 expression values for differentially expressed proteins, together with standard errors.
+:::discussion
+
+# A closer look at the results
+
+Our output table is ordered by B statistic. Use `View(results)` 
+
+:::
+
+## Visualise differentially expressed proteins
+
+### Expression values and standard error by sample
+
+We can visualise the log2 expression values for individual proteins, together with standard errors.
 
 
 ``` r
@@ -129,17 +143,32 @@ legend('topleft', legend = levels(Class), fill = levels(Class.color))
 
 <img src="fig/04DEA-rendered-unnamed-chunk-4-2.png" style="display: block; margin: auto;" />
 
-## Visualise differentially expressed proteins
+:::::challenge
 
-### Heatmap
+This simple function plots the protein values from our expression matrix, which we did not directly edit to mitigate batch effects. Try running the `limma` function to remove batch effects from our dataset and see how this changes results.
 
-We can filter our results to the top up to 50 most significant differentially expressed proteins, then visualise via a clustered heatmap.
+:::solution
 
 
 ``` r
-# Save our DEA results as a dataframe
-results <- topTable(fit, coef = 2, number = Inf)
+y.protein.rbe <- y.protein
+y.protein.rbe$E <- removeBatchEffect(y.protein,batch = y.protein$targets$Batch, group=y.protein$targets$Class)
 
+plotProtein(y.protein.rbe, "S10A9_HUMAN", col = as.character(Class.color))
+legend('topleft', legend = levels(Class), fill = levels(Class.color))
+```
+
+<img src="fig/04DEA-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+
+:::
+:::::
+
+### Heatmap
+
+We can filter our results to the up to 50 top most significant differentially expressed proteins, then visualise via a clustered heatmap.
+
+
+``` r
 # Filter for the up to 50 most significant results
 sig_proteins <- results %>%
   filter(adj.P.Val < 0.05) %>% # filter by p value
@@ -159,21 +188,12 @@ pheatmap(scaled_expr,
          clustering_method = 'ward.D')
 ```
 
-<img src="fig/04DEA-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+<img src="fig/04DEA-rendered-unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 
 :::challenge
 
 How would you interpret this heatmap?
 
-:::solution
-
-As expected, our samples cluster into their respective classes. 
-
-The three proteins with decreased expression in the aCD samples are clearly distinguishable from those with increased expression in the aCD samples.
-
-There are no apparent batch effects confounding these results.
-
-:::
 :::::
 
 ### Volcano plot
@@ -198,7 +218,7 @@ EnhancedVolcano(results,
                 xlim = c(-5, 5))
 ```
 
-<img src="fig/04DEA-rendered-unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
+<img src="fig/04DEA-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
 
 ::::::::::::::::::::::::::::::::::::: keypoints 

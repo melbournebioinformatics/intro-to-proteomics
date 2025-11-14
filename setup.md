@@ -2,24 +2,24 @@
 title: Setup
 ---
 
-## Workshop overview
+## Tutorial overview
 
-This workshop will introduce participants to **proteomic data processing, cleaning, and analysis**, 
-with a focus on **label-free, bottom-up, DIA, mass-spectrometry based quantitative proteomics**. 
+This tutorial will introduce participants to **proteomic data processing, cleaning, and analysis**, 
+with a focus on **label-free, bottom-up, DIA, mass spectrometry-based quantitative proteomics**. 
 
 We will begin with a brief overview of the proteomics workflow and introduction to the dataset used in this tutorial. 
-This will be followed by an introduction to DIA-NN as an open-source DIA-focused proteomic data processing software. 
-Participants will then be introduced to the *limpa* package for protein quantification and guided through key steps for 
+This will be followed by an introduction to DIA-NN as a command-line interoperable DIA-focused proteomic data processing software. 
+Participants will then be introduced to the `limpa` package for protein quantification and guided through key steps for 
 cleaning and converting proteomics data to an analysis-ready format, including removing contaminants and quality filtering. 
 Finally, we will introduce some basic statistical analyses for interpreting proteomics data, 
 including differential expression analysis, enrichment analysis, and protein-protein interaction network analysis. 
 
 <br>
 
-:::: prereq
+::::callout
 # LEARNING OBJECTIVES
 
-By the end of this workshop, you will be able to: 
+By the end of this tutorial, you will be able to: 
 
 - Describe the proteomics workflow and understand the types of information that can be acquired from proteomic testing. 
 - List the steps required to process and clean proteomics data, and justify which methods are most appropriate for your data. 
@@ -46,7 +46,7 @@ This introductory workshop assumes some knowledge of R and basic biology. No pro
 ## REQUIRED KNOWLEDGE
 
 - This workshop assumes participants have a **basic understanding of R** or have previously attended 
-an Intro to R workshop. Please review introductory materials [here](https://melbournebioinformatics.github.io/intro-to-r/).
+an Introduction to R workshop. Please review introductory materials [here](https://melbournebioinformatics.github.io/intro-to-r/).
 
 ::::
 
@@ -59,9 +59,7 @@ Attendees are required to bring their own laptop computers. **Please ensure you 
 - [Chrome](https://www.google.com/chrome/) or [FireFox](https://www.mozilla.org/en-US/)
 - [R](https://cran.ms.unimelb.edu.au/) (Download and install the latest version of R using the UniMelb mirror)
 - [RStudio](https://posit.co/download/rstudio-desktop/#download)
-- R packages required for this workshop (see below)
-
-::::
+- **R packages** required for this workshop (see below)
 
 ### Installing required R packages
 
@@ -115,6 +113,8 @@ for (pkg in bioc_packages) {
 
 ```
 
+::::
+
 <br>
 
 :::: checklist
@@ -131,3 +131,14 @@ a public repository for mass spectrometry-based proteomics data.
 You can read the associated paper [here](https://dx.doi.org/10.3390/BIOMEDICINES12020333).
 
 ::::
+
+
+::: discussion
+
+# Introductory slides
+
+Introductory slides for this workshop can be found [here](episodes/files/MB_IntroToProteomics_IntroPpt_JB.pdf). 
+
+If you are attending a live workshop, there is no need to review these slides in advance.
+
+:::
