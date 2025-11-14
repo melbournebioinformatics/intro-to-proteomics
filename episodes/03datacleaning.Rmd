@@ -295,7 +295,9 @@ levels(Class.color) <- hcl.colors(nlevels(Class), palette = "cividis")
 Batch <- factor(y.peptide$targets$Batch)
 Batch.color <- Batch
 levels(Batch.color) <- hcl.colors(nlevels(Batch), palette = "Set 2")
+```
 
+```{r}
 # Class visualisation
 plotMDSUsingSEs(y.protein, pch=16, col=as.character(Class.color))
 

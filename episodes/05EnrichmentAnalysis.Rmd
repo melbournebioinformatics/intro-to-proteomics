@@ -185,6 +185,8 @@ Two common types of enrichment exploration are:
 -   **Gene Ontology (GO)**: describes BPs, CCs, amd MFs
 -   **KEGG pathways**: curated molecular interactions
 
+<br>
+
 ### GO enrichment analysis
 
 ```{r}
@@ -230,7 +232,7 @@ dotplot(ekegg, showCategory = 10)
 How do these figures compare to [Figure 4](https://mdpi-res.com/biomedicines/biomedicines-12-00333/article_deploy/html/images/biomedicines-12-00333-g004.png) in the original paper?
 
 ::: solution
-While there are many similar pathways, the exact pathways are not identical. This is likely due to the fact we are using a subset of the larger dataset in this tutorial.
+While there are many similar pathways, the exact pathways are not identical. This is likely due to the fact we are using a subset of the larger dataset in this tutorial, so we have a slightly different list of DE proteins.
 :::
 ::::
 
