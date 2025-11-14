@@ -60,7 +60,7 @@ DIA-NN analysis consists of two steps. The first step is to **generate a predict
 
     a. Go to https://www.uniprot.org/uniprotkb?query=*
     
-    b. Select the `relevant organism` for your sample and `Reviewed (Swiss-Prot)` status to filter results.
+    b. Select the relevant `organism` for your sample and `Reviewed (Swiss-Prot)` status to filter results.
     
     c. Click `Download`
     

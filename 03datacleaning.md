@@ -377,26 +377,29 @@ levels(Class.color) <- hcl.colors(nlevels(Class), palette = "cividis")
 Batch <- factor(y.peptide$targets$Batch)
 Batch.color <- Batch
 levels(Batch.color) <- hcl.colors(nlevels(Batch), palette = "Set 2")
+```
 
+
+``` r
 # Class visualisation
 plotMDSUsingSEs(y.protein, pch=16, col=as.character(Class.color))
 ```
 
-<img src="fig/03datacleaning-rendered-unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
+<img src="fig/03datacleaning-rendered-unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
 
 ``` r
 # Batch visualisation
 plotMDSUsingSEs(y.protein, pch=16, col=as.character(Batch.color))
 ```
 
-<img src="fig/03datacleaning-rendered-unnamed-chunk-15-2.png" style="display: block; margin: auto;" />
+<img src="fig/03datacleaning-rendered-unnamed-chunk-16-2.png" style="display: block; margin: auto;" />
 
 ``` r
 # Class (labels) and batch (colors) visualisation
 plotMDSUsingSEs(y.protein, labels=Class, col=as.character(Batch.color))
 ```
 
-<img src="fig/03datacleaning-rendered-unnamed-chunk-15-3.png" style="display: block; margin: auto;" />
+<img src="fig/03datacleaning-rendered-unnamed-chunk-16-3.png" style="display: block; margin: auto;" />
 
 We can already see a distinction between the aCD and Ctrl groups, which will be explored further in the next lesson.
 

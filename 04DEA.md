@@ -118,7 +118,11 @@ RNAS2_HUMAN 11.228811 4.222021 1.927229e-04 5.396242e-03 0.6366061
 
 # A closer look at the results
 
-Our output table is ordered by B statistic. Use `View(results)` 
+Our output table is ordered by B statistic. Run `View(results)` to take a closer look at some of the lower ranked proteins.
+
+Are there any proteins with an absolute fold change > 2 (|logFC| > 1) that are not statistically significant? Can you think of some explanations for this?
+
+Hint: Take note of the PropObs value and remember its relationship to standard error.
 
 :::
 
@@ -145,7 +149,7 @@ legend('topleft', legend = levels(Class), fill = levels(Class.color))
 
 :::::challenge
 
-This simple function plots the protein values from our expression matrix, which we did not directly edit to mitigate batch effects. Try running the `limma` function to remove batch effects from our dataset and see how this changes results.
+This simple function plots the protein values from our expression matrix, which we did not directly edit to mitigate batch effects. Try running the `limma` function to remove batch effects from our dataset and see how this changes your plot.
 
 :::solution
 
