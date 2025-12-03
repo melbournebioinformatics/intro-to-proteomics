@@ -84,7 +84,6 @@ bioc_packages <- c(
   "org.Hs.eg.db",    # Human gene annotation (for GO/KEGG)
   "rpx",             # Interface to the ProteomeXchange Repository
   "EnhancedVolcano", # Volcano plots
-  "STRINGdb",        # Protein-protein interaction network visualization
   "STRINGdb"         #  Interface to the STRING protein-protein interactions database
 )
 
