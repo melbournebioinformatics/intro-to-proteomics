@@ -69,22 +69,22 @@ Please copy and run the below code to install the required R packages prior to t
 
 # Packages from CRAN
 cran_packages <- c(
-  "limpa",           # Proteomics data processing and DE analysis
   "dplyr",           # Data manipulation
   "readxl",          # Read Excel files
   "stringr",         # Manipulate strings
   "curl",            # Download files from URLs
   "pheatmap",        # Heatmap visualization
-  "EnhancedVolcano", # Volcano plots
-  "STRINGdb",        # Protein-protein interaction network visualization
   "arrow"            # Dependency for .parquet reading in limpa
 )
 
 # Packages from Bioconductor
 bioc_packages <- c(
+  "limpa",           # Proteomics data processing and DE analysis
   "clusterProfiler", # Functional enrichment analysis
   "org.Hs.eg.db",    # Human gene annotation (for GO/KEGG)
   "rpx",             # Interface to the ProteomeXchange Repository
+  "EnhancedVolcano", # Volcano plots
+  "STRINGdb",        # Protein-protein interaction network visualization
   "STRINGdb"         #  Interface to the STRING protein-protein interactions database
 )
 
