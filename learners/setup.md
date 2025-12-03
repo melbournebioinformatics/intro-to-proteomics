@@ -87,16 +87,9 @@ bioc_packages <- c(
   "STRINGdb"         #  Interface to the STRING protein-protein interactions database
 )
 
-# Function to install missing CRAN packages
-install_if_missing <- function(pkgs, repo = "https://cloud.r-project.org") {
-  to_install <- pkgs[!pkgs %in% installed.packages()[, "Package"]]
-  if (length(to_install) > 0) {
-    install.packages(to_install, repos = repo)
-  }
-}
 
 # 1. Install CRAN packages
-install_if_missing(cran_packages)
+install.packages(cran_packages)
 
 # 2. Install Bioconductor manager if needed
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
@@ -104,11 +97,8 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) {
 }
 
 # 3. Install Bioconductor packages
-for (pkg in bioc_packages) {
-  if (!requireNamespace(pkg, quietly = TRUE)) {
-    BiocManager::install(pkg, ask = FALSE, update = TRUE)
-  }
-}
+BiocManager::install(bioc_packages)
+
 
 ```
 
