@@ -268,6 +268,17 @@
       "Maintainer": "Marcel Ramos <marcel.ramos@sph.cuny.edu>",
       "Repository": "https://packagemanager.posit.co/cran/__linux__/jammy/latest"
     },
+    "BiocVersion": {
+      "Package": "BiocVersion",
+      "Version": "3.23.1",
+      "Source": "Bioconductor",
+      "Depends": [
+        "R (>= 4.6.0)"
+      ],
+      "License": "Artistic-2.0",
+      "Repository": "Bioconductor 3.23",
+      "NeedsCompilation": "no"
+    },
     "Biostrings": {
       "Package": "Biostrings",
       "Version": "2.80.1",
