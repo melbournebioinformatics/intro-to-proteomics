@@ -53,6 +53,7 @@ library(arrow)
 library(rpx)
 library(dplyr)
 library(stringr)
+library(nanoparquet)
 ```
 
 ### Load DIA-NN output
