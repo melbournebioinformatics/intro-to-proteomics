@@ -26,6 +26,7 @@ library(arrow)
 library(rpx)
 library(dplyr)
 library(stringr)
+library(nanoparquet)
 
 y.peptide <- readDIANN(file='data/MBIntroToProteomics.parquet',format="parquet",
                        q.columns = c("Q.Value","Lib.Q.Value","Lib.PG.Q.Value"),
@@ -88,10 +89,12 @@ fit <- eBayes(fit)
 results <- topTable(fit, coef = 2, number = Inf)
 
 # Filter for the up to 50 most significant results
-sig_proteins <- results %>%
+# Filter for the up to 50 most significant results
+sig_proteins_df <- results %>%
   filter(adj.P.Val < 0.05) %>% # filter by p value
-  top_n(50, wt = abs(logFC)) %>% # filter by absolute log fold change
-  pull(Protein.Names)
+  top_n(50, wt = abs(logFC)) # filter by absolute log fold change
+
+sig_proteins <- rownames(sig_proteins_df)
 expr_matrix <- y.protein$E[sig_proteins, ]
 
 # Scale the data and visualise via heatmap
