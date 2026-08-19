@@ -79,7 +79,7 @@ Now we run the `limpa` **differential expression analysis** function `dpcDE()` t
 fit <- dpcDE(y.protein, design, plot = TRUE)
 ```
 
-<img src="fig/04DEA-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
+<img src="fig/04DEA-rendered-unnamed-chunk-3-1.png" alt="" style="display: block; margin: auto;" />
 
 ``` r
 fit <- eBayes(fit)
@@ -90,28 +90,28 @@ head(results, n=10)
 ```
 
 ``` output
-            Protein.Group Protein.Names   Genes NPeptides   PropObs    logFC
-PRTN3_HUMAN        P24158   PRTN3_HUMAN   PRTN3        11 0.5318182 4.466373
-S10A9_HUMAN        P06702   S10A9_HUMAN  S100A9        23 0.6086957 3.809771
-S10A8_HUMAN        P05109   S10A8_HUMAN  S100A8        17 0.6500000 3.811580
-TRFL_HUMAN         P02788    TRFL_HUMAN     LTF        46 0.3152174 3.998157
-CEAM8_HUMAN        P31997   CEAM8_HUMAN CEACAM8         6 0.3583333 3.130768
-SAMP_HUMAN         P02743    SAMP_HUMAN    APCS         8 0.5500000 2.720497
-A1AG1_HUMAN        P02763   A1AG1_HUMAN    ORM1        11 0.4454545 3.349033
-CAP7_HUMAN         P20160    CAP7_HUMAN    AZU1         6 0.4666667 3.200933
-FRIH_HUMAN         P02794    FRIH_HUMAN    FTH1        12 0.5625000 2.528228
-RNAS2_HUMAN        P10153   RNAS2_HUMAN  RNASE2         6 0.5666667 2.887339
-              AveExpr        t      P.Value    adj.P.Val         B
-PRTN3_HUMAN 11.146376 6.909177 8.925046e-08 2.499013e-05 7.9144156
-S10A9_HUMAN 12.809535 6.354519 4.259264e-07 5.962969e-05 6.4365522
-S10A8_HUMAN 12.865666 6.070836 9.561924e-07 8.924462e-05 5.6692556
-TRFL_HUMAN   9.061431 5.755654 2.361294e-06 1.601370e-04 4.8072839
-CEAM8_HUMAN 10.078482 5.689096 2.859590e-06 1.601370e-04 4.6265751
-SAMP_HUMAN  11.028982 5.317255 8.351615e-06 3.897420e-04 3.6088844
-A1AG1_HUMAN 10.284907 5.228167 1.079921e-05 4.319682e-04 3.3650142
-CAP7_HUMAN  10.422828 4.613155 6.335616e-05 2.217466e-03 1.6820861
-FRIH_HUMAN  11.341144 4.227543 1.897414e-04 5.396242e-03 0.6493737
-RNAS2_HUMAN 11.228811 4.222021 1.927229e-04 5.396242e-03 0.6366061
+            Protein.Group   Genes NPrec   PropObs    logFC   AveExpr        t
+PRTN3_HUMAN        P24158   PRTN3    11 0.5318182 4.466376 11.146376 6.909181
+S10A9_HUMAN        P06702  S100A9    23 0.6086957 3.809772 12.809535 6.354521
+S10A8_HUMAN        P05109  S100A8    17 0.6500000 3.811580 12.865666 6.070836
+TRFL_HUMAN         P02788     LTF    46 0.3152174 3.998155  9.061431 5.755649
+CEAM8_HUMAN        P31997 CEACAM8     6 0.3583333 3.130770 10.078482 5.689102
+SAMP_HUMAN         P02743    APCS     8 0.5500000 2.720499 11.028982 5.317264
+A1AG1_HUMAN        P02763    ORM1    11 0.4454545 3.349038 10.284907 5.228180
+CAP7_HUMAN         P20160    AZU1     6 0.4666667 3.200935 10.422828 4.613159
+FRIH_HUMAN         P02794    FTH1    12 0.5625000 2.528232 11.341144 4.227551
+RNAS2_HUMAN        P10153  RNASE2     6 0.5666667 2.887344 11.228811 4.222031
+                 P.Value    adj.P.Val         B
+PRTN3_HUMAN 8.925010e-08 2.499003e-05 7.9144199
+S10A9_HUMAN 4.259266e-07 5.962972e-05 6.4365520
+S10A8_HUMAN 9.561952e-07 8.924488e-05 5.6692531
+TRFL_HUMAN  2.361339e-06 1.601347e-04 4.8072662
+CEAM8_HUMAN 2.859548e-06 1.601347e-04 4.6265892
+SAMP_HUMAN  8.351415e-06 3.897327e-04 3.6089071
+A1AG1_HUMAN 1.079883e-05 4.319532e-04 3.3650472
+CAP7_HUMAN  6.335565e-05 2.217448e-03 1.6820936
+FRIH_HUMAN  1.897372e-04 5.396097e-03 0.6493939
+RNAS2_HUMAN 1.927177e-04 5.396097e-03 0.6366310
 ```
 
 :::discussion
@@ -138,14 +138,14 @@ plotProtein(y.protein, "PRTN3_HUMAN", col = as.character(Class.color))
 legend('topleft', legend = levels(Class), fill = levels(Class.color))
 ```
 
-<img src="fig/04DEA-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
+<img src="fig/04DEA-rendered-unnamed-chunk-4-1.png" alt="" style="display: block; margin: auto;" />
 
 ``` r
 plotProtein(y.protein, "S10A9_HUMAN", col = as.character(Class.color))
 legend('topleft', legend = levels(Class), fill = levels(Class.color))
 ```
 
-<img src="fig/04DEA-rendered-unnamed-chunk-4-2.png" style="display: block; margin: auto;" />
+<img src="fig/04DEA-rendered-unnamed-chunk-4-2.png" alt="" style="display: block; margin: auto;" />
 
 :::::challenge
 
@@ -162,7 +162,7 @@ plotProtein(y.protein.rbe, "S10A9_HUMAN", col = as.character(Class.color))
 legend('topleft', legend = levels(Class), fill = levels(Class.color))
 ```
 
-<img src="fig/04DEA-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+<img src="fig/04DEA-rendered-unnamed-chunk-5-1.png" alt="" style="display: block; margin: auto;" />
 
 :::
 :::::
@@ -174,10 +174,11 @@ We can filter our results to the up to 50 top most significant differentially ex
 
 ``` r
 # Filter for the up to 50 most significant results
-sig_proteins <- results %>%
+sig_proteins_df <- results %>%
   filter(adj.P.Val < 0.05) %>% # filter by p value
-  top_n(50, wt = abs(logFC)) %>% # filter by absolute log fold change
-  pull(Protein.Names)
+  top_n(50, wt = abs(logFC)) # filter by absolute log fold change
+
+sig_proteins <- rownames(sig_proteins_df)
 expr_matrix <- y.protein$E[sig_proteins, ]
 
 # Scale the data and visualise via heatmap
@@ -192,7 +193,7 @@ pheatmap(scaled_expr,
          clustering_method = 'ward.D')
 ```
 
-<img src="fig/04DEA-rendered-unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
+<img src="fig/04DEA-rendered-unnamed-chunk-6-1.png" alt="" style="display: block; margin: auto;" />
 
 :::challenge
 
@@ -222,7 +223,7 @@ EnhancedVolcano(results,
                 xlim = c(-5, 5))
 ```
 
-<img src="fig/04DEA-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
+<img src="fig/04DEA-rendered-unnamed-chunk-7-1.png" alt="" style="display: block; margin: auto;" />
 
 
 ::::::::::::::::::::::::::::::::::::: keypoints 

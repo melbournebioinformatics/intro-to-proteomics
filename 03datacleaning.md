@@ -54,6 +54,7 @@ library(arrow)
 library(rpx)
 library(dplyr)
 library(stringr)
+library(nanoparquet)
 ```
 
 ### Load DIA-NN output
@@ -70,7 +71,7 @@ y.peptide <- readDIANN(file='data/MBIntroToProteomics.parquet',format="parquet",
 ```
 
 ``` output
-Length of q-value columns does not match with length of q-value cutoffs. Use q.cutoffs[1] for all columns.
+Filtered 507 q-values above q.cutoffs.
 ```
 
 :::::challenge
@@ -247,7 +248,7 @@ dpcfit$dpc
 plotDPC(dpcfit)
 ```
 
-<img src="fig/03datacleaning-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+<img src="fig/03datacleaning-rendered-unnamed-chunk-11-1.png" alt="" style="display: block; margin: auto;" />
 
 Next, we can use the DPC to generate our log2 protein values. This function requires the following input:
 
@@ -269,7 +270,7 @@ Quantifying proteins ...
 ```
 
 ``` output
-Proteins: 280 Peptides: 2672
+Proteins: 280  Precursors: 2672 (100%)
 ```
 
 *Note: our dataset is quite small, so this process should only take a few seconds. For larger datasets, it may take minutes or hours for this command to run.*
@@ -311,7 +312,8 @@ names(y.protein)
 ```
 
 ``` output
-[1] "E"       "genes"   "other"   "targets" "dpc"    
+[1] "E"           "genes"       "other"       "targets"     "dpc"        
+[6] "prior.mean"  "prior.sd"    "prior.logFC"
 ```
 
 ``` r
@@ -327,8 +329,7 @@ names(y.protein$genes)
 ```
 
 ``` output
-[1] "Protein.Group" "Protein.Names" "Genes"         "NPeptides"    
-[5] "PropObs"      
+[1] "Protein.Group" "Genes"         "NPrec"         "PropObs"      
 ```
 
 | EList component   | Description                                                                         |
@@ -363,7 +364,7 @@ Let's take a look at our dataset. The `plotMDSUsingSEs()` function, or *Multidim
 plotMDSUsingSEs(y.protein)
 ```
 
-<img src="fig/03datacleaning-rendered-unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
+<img src="fig/03datacleaning-rendered-unnamed-chunk-14-1.png" alt="" style="display: block; margin: auto;" />
 
 That plot is extremely messy and doesn't tell us much! Let's clean it up.
 
@@ -385,21 +386,21 @@ levels(Batch.color) <- hcl.colors(nlevels(Batch), palette = "Set 2")
 plotMDSUsingSEs(y.protein, pch=16, col=as.character(Class.color))
 ```
 
-<img src="fig/03datacleaning-rendered-unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
+<img src="fig/03datacleaning-rendered-unnamed-chunk-16-1.png" alt="" style="display: block; margin: auto;" />
 
 ``` r
 # Batch visualisation
 plotMDSUsingSEs(y.protein, pch=16, col=as.character(Batch.color))
 ```
 
-<img src="fig/03datacleaning-rendered-unnamed-chunk-16-2.png" style="display: block; margin: auto;" />
+<img src="fig/03datacleaning-rendered-unnamed-chunk-16-2.png" alt="" style="display: block; margin: auto;" />
 
 ``` r
 # Class (labels) and batch (colors) visualisation
 plotMDSUsingSEs(y.protein, labels=Class, col=as.character(Batch.color))
 ```
 
-<img src="fig/03datacleaning-rendered-unnamed-chunk-16-3.png" style="display: block; margin: auto;" />
+<img src="fig/03datacleaning-rendered-unnamed-chunk-16-3.png" alt="" style="display: block; margin: auto;" />
 
 We can already see a distinction between the aCD and Ctrl groups, which will be explored further in the next lesson.
 

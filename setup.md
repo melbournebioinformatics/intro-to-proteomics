@@ -74,7 +74,8 @@ cran_packages <- c(
   "stringr",         # Manipulate strings
   "curl",            # Download files from URLs
   "pheatmap",        # Heatmap visualization
-  "arrow"            # Dependency for .parquet reading in limpa
+  "arrow",           # Dependency for .parquet reading in limpa
+  "nanoparquet"      # Additional dependency for parquet reading
 )
 
 # Packages from Bioconductor

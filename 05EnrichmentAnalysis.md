@@ -44,7 +44,7 @@ string_db$plot_network(de_proteins_mapped$STRING_id)
 
 *Note: if the above code takes too long to load, you can download an RData that contains the `string_db` and `mapped` functions [here](https://github.com/egmg726/intro-to-proteomics/blob/main/episodes/data/string_db.RData).*
 
-<img src="fig/05EnrichmentAnalysis-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
+<img src="fig/05EnrichmentAnalysis-rendered-unnamed-chunk-3-1.png" alt="" style="display: block; margin: auto;" />
 
 
 :::: discussion
@@ -82,25 +82,26 @@ STRINGdb$methods()
 [11] "field"                               "get_aliases"                        
 [13] "get_annotations"                     "get_bioc_graph"                     
 [15] "get_clusters"                        "get_enrichment"                     
-[17] "get_graph"                           "get_homologs"                       
-[19] "get_homologs_besthits"               "get_homology_graph"                 
-[21] "get_interactions"                    "get_link"                           
-[23] "get_neighbors"                       "get_paralogs"                       
-[25] "get_pathways_benchmarking_blackList" "get_png"                            
-[27] "get_ppi_enrichment"                  "get_ppi_enrichment_full"            
-[29] "get_proteins"                        "get_pubmed"                         
-[31] "get_pubmed_interaction"              "get_subnetwork"                     
-[33] "get_summary"                         "get_term_proteins"                  
-[35] "getClass"                            "getRefClass"                        
-[37] "import"                              "initFields"                         
-[39] "initialize"                          "load"                               
-[41] "load_all"                            "map"                                
-[43] "mp"                                  "plot_network"                       
-[45] "plot_ppi_enrichment"                 "post_payload"                       
-[47] "ppi_enrichment"                      "remove_homologous_interactions"     
-[49] "set_background"                      "show"                               
-[51] "show#envRefClass"                    "trace"                              
-[53] "untrace"                             "usingMethods"                       
+[17] "get_enrichment_figure"               "get_graph"                          
+[19] "get_homologs"                        "get_homologs_besthits"              
+[21] "get_homology_graph"                  "get_interaction_partners"           
+[23] "get_interactions"                    "get_link"                           
+[25] "get_neighbors"                       "get_paralogs"                       
+[27] "get_pathways_benchmarking_blackList" "get_png"                            
+[29] "get_ppi_enrichment"                  "get_ppi_enrichment_full"            
+[31] "get_proteins"                        "get_pubmed"                         
+[33] "get_pubmed_interaction"              "get_subnetwork"                     
+[35] "get_summary"                         "get_term_proteins"                  
+[37] "getClass"                            "getRefClass"                        
+[39] "import"                              "initFields"                         
+[41] "initialize"                          "load"                               
+[43] "load_all"                            "map"                                
+[45] "mp"                                  "plot_network"                       
+[47] "plot_ppi_enrichment"                 "post_payload"                       
+[49] "ppi_enrichment"                      "remove_homologous_interactions"     
+[51] "set_background"                      "show"                               
+[53] "show#envRefClass"                    "trace"                              
+[55] "untrace"                             "usingMethods"                       
 ```
 
 :::
@@ -160,7 +161,7 @@ ego <- enrichGO(gene = converted$ENTREZID,
 dotplot(ego, showCategory = 10)
 ```
 
-<img src="fig/05EnrichmentAnalysis-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+<img src="fig/05EnrichmentAnalysis-rendered-unnamed-chunk-5-1.png" alt="" style="display: block; margin: auto;" />
 
 ### KEGG pathway enrichment analysis
 
@@ -180,11 +181,15 @@ Reading KEGG annotation online: "https://rest.kegg.jp/link/hsa/pathway"...
 Reading KEGG annotation online: "https://rest.kegg.jp/list/pathway/hsa"...
 ```
 
+``` output
+kegg_category.rda is not found, download it online...
+```
+
 ``` r
 dotplot(ekegg, showCategory = 10)
 ```
 
-<img src="fig/05EnrichmentAnalysis-rendered-unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
+<img src="fig/05EnrichmentAnalysis-rendered-unnamed-chunk-6-1.png" alt="" style="display: block; margin: auto;" />
 
 
 :::: challenge
